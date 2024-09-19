@@ -36,7 +36,7 @@ public class CardMoveModel
         {
             if(pointerEventData.pointerEnter.TryGetComponent(out CardDropZone cardDropZone))
             {
-                cardDropZone.GetCard();
+                cardDropZone.SpawnCard();
                 OnTeleporting?.Invoke();
             }
         }

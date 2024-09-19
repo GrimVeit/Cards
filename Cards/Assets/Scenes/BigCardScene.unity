@@ -168,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds: {fileID: 1725737543}
   cardValues: {fileID: 11400000, guid: a6938c11432472c45aaaf953ce318bc7, type: 2}
+  amounts: {fileID: 11400000, guid: 7d56bba98efc1f649b898c7c51ce81b3, type: 2}
   sceneRootPrefab: {fileID: 190975057432250645, guid: 051bc121d3ae6bf42a1c6551c14400d5, type: 3}
 --- !u!1 &1725737541
 GameObject:

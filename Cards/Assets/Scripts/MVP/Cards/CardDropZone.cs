@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class CardDropZone : MonoBehaviour
 {
-    public event Action OnGetCard;
-    public void GetCard()
+    public event Action OnSpawnCard;
+    public void SpawnCard()
     {
-        OnGetCard?.Invoke();
+        OnSpawnCard?.Invoke();
     }
 }

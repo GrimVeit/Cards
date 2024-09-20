@@ -69,5 +69,11 @@ public class CardBetPresenter
         remove { cardWalletModel.OnSubmitBet -= value; }
     }
 
+    public event Action<int> OnSubmitBet_Value
+    {
+        add { cardWalletModel.OnSubmitBet_Value += value; }
+        remove { cardWalletModel.OnSubmitBet_Value -= value; }
+    }
+
     #endregion
 }

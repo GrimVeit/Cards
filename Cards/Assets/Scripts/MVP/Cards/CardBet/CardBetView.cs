@@ -29,11 +29,11 @@ public class CardBetView : View
 
     public void Activate()
     {
+        displayBet.SetActive(true);
+
         increaseBetButton.onClick.AddListener(HandlerClickToIncreaseButton);
         decreaseBetButton.onClick.AddListener(HandlerClickToDecreaseButton);
         continueButton.onClick.AddListener(HandlerClickToContinue);
-
-        displayBet.SetActive(true);
     }
 
     public void Deactivate()
@@ -42,7 +42,8 @@ public class CardBetView : View
         decreaseBetButton.onClick.RemoveListener(HandlerClickToDecreaseButton);
         continueButton.onClick.RemoveListener(HandlerClickToContinue);
 
-        displayBet.SetActive(false);
+        increaseBetButton.gameObject.SetActive(false);
+        decreaseBetButton.gameObject.SetActive(false);
     }
 
     public void DisplayBet(int bet)

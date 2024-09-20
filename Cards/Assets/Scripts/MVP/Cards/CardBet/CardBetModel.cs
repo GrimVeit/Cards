@@ -3,6 +3,7 @@ using System;
 public class CardBetModel
 {
     public event Action OnSubmitBet;
+    public event Action<int> OnSubmitBet_Value;
     public event Action OnActivate;
     public event Action OnDeactivate;
 
@@ -66,12 +67,15 @@ public class CardBetModel
 
     public void SubmitBet()
     {
-        if(IsBetActivated())
-          OnSubmitBet?.Invoke();
+        if (IsBetActivated())
+        {
+            OnSubmitBet_Value?.Invoke(bet);
+            OnSubmitBet?.Invoke();
+        }
     }
 
     public bool IsBetActivated()
     {
-        return bet != 0 ? true : false;
+        return bet != 0;
     }
 }

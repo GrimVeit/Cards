@@ -24,6 +24,12 @@ public class BigCardSceneEntryPoint : MonoBehaviour
     private CardHighlightPresenter cardUserHighlightPresenter;
     private CardHighlightPresenter cardAIHighlightPresenter;
 
+    private CardGamePresenter cardGamePresenter;
+
+    private CardComparisionPresenter cardComparisionPresenter;
+
+    private CardGameWalletPresenter cardGameWalletPresenter;
+
     public void Run(UIRootView uIRootView)
     {
         sceneRoot = Instantiate(sceneRootPrefab);
@@ -54,8 +60,18 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardAIHighlightPresenter = new CardHighlightPresenter(new CardHighlightModel(), viewContainer.GetView<CardHighlightView>("AI"));
         cardAIHighlightPresenter.Initilize();
 
+        cardGamePresenter = new CardGamePresenter(new CardGameModel(), viewContainer.GetView<CardGameView>());
+        cardGamePresenter.Initialize();
+
+        cardComparisionPresenter = new CardComparisionPresenter(new CardComparisionModel());
+        cardComparisionPresenter.Initialize();
+
+        cardGameWalletPresenter = new CardGameWalletPresenter(new CardGameWalletModel(), viewContainer.GetView<CardGameWalletView>());
+        cardGameWalletPresenter.Initialize();
+
         cardUserMovePresenter.Activate();
 
+        ActivateComparisedCardEvents();
         ActivateActions();
     }
 
@@ -68,7 +84,11 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardUserSpawnerPresenter.OnSpawnCard += cardUserBetPresenter.Activate;
 
         cardUserBetPresenter.OnSubmitBet += cardUserBetPresenter.Deactivate;
-        cardUserBetPresenter.OnSubmitBet += cardMoveAIPresenter.Activate;
+        cardUserBetPresenter.OnSubmitBet += cardGamePresenter.Activate;
+        cardUserBetPresenter.OnSubmitBet_Value += cardGameWalletPresenter.SetBet;
+
+        cardGamePresenter.OnChooseChance += cardGamePresenter.Deactivate;
+        cardGamePresenter.OnChooseChance += cardMoveAIPresenter.Activate;
 
         cardMoveAIPresenter.OnStartMove += cardAIHighlightPresenter.ActivateChooseHighlight;
         cardMoveAIPresenter.OnEndMove += cardAIHighlightPresenter.DeactivateChooseHighlight;
@@ -78,20 +98,18 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardAISpawnerPresenter.OnSpawnCard += cardMoveAIPresenter.Deactivate;
     }
 
-    private void DeactivateActions()
+    private void ActivateComparisedCardEvents()
     {
+        cardUserSpawnerPresenter.OnSpawnCard_Values += cardComparisionPresenter.OnSpawnedCard;
+        cardAISpawnerPresenter.OnSpawnCard_Values += cardComparisionPresenter.OnSpawnedCard;
 
+        cardComparisionPresenter.OnSuccessGame += cardGameWalletPresenter.IncreaseMoney;
+        cardComparisionPresenter.OnLoseGame -= cardGameWalletPresenter.DecreaseMoney;
     }
 
     private void Dispose()
     {
-        DeactivateActions();
-        //sceneRoot?.Deactivate();
 
-        //sceneRoot?.Dispose();
-        cardUserMovePresenter?.Dispose();
-        cardUserSpawnerPresenter?.Dispose();
-        cardUserBetPresenter?.Dispose();
     }
 
     #region Input Actions

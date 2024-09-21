@@ -30,11 +30,15 @@ public class CardSpawnerPresenter
         cardSpawnerView.OnSpawnCard += cardSpawnerModel.SpawnCard;
 
         cardSpawnerModel.OnSpawnCard_Values += cardSpawnerView.SpawnCard;
+        cardSpawnerModel.OnDestroyCard += cardSpawnerView.DestroyCard;
     }
 
     private void DeactivateEvents()
     {
         cardSpawnerView.OnSpawnCard -= cardSpawnerModel.SpawnCard;
+
+        cardSpawnerModel.OnSpawnCard_Values -= cardSpawnerView.SpawnCard;
+        cardSpawnerModel.OnDestroyCard -= cardSpawnerView.DestroyCard;
     }
 
     #region Input
@@ -54,6 +58,11 @@ public class CardSpawnerPresenter
     public void SpawnCard()
     {
         cardSpawnerModel.SpawnCard();
+    }
+
+    public void DestroyCard()
+    {
+        cardSpawnerModel.DestroyCard();
     }
 
     #endregion

@@ -30,6 +30,8 @@ public class BigCardSceneEntryPoint : MonoBehaviour
 
     private CardGameWalletPresenter cardGameWalletPresenter;
 
+    private CardHistoryPresenter cardHistoryPresenter;
+
     public void Run(UIRootView uIRootView)
     {
         sceneRoot = Instantiate(sceneRootPrefab);
@@ -69,6 +71,9 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardGameWalletPresenter = new CardGameWalletPresenter(new CardGameWalletModel(), viewContainer.GetView<CardGameWalletView>());
         cardGameWalletPresenter.Initialize();
 
+        cardHistoryPresenter = new CardHistoryPresenter(new CardHistoryModel(), viewContainer.GetView<CardHistoryView>());
+        cardHistoryPresenter.Initialize();
+
         cardUserMovePresenter.Activate();
 
         ActivateComparisedCardEvents();
@@ -82,6 +87,7 @@ public class BigCardSceneEntryPoint : MonoBehaviour
 
         cardUserSpawnerPresenter.OnSpawnCard += cardUserMovePresenter.Deactivate;
         cardUserSpawnerPresenter.OnSpawnCard += cardUserBetPresenter.Activate;
+        cardUserSpawnerPresenter.OnSpawnCard += cardGamePresenter.Reset;
 
         cardUserBetPresenter.OnSubmitBet += cardUserBetPresenter.Deactivate;
         cardUserBetPresenter.OnSubmitBet += cardGamePresenter.Activate;
@@ -89,6 +95,7 @@ public class BigCardSceneEntryPoint : MonoBehaviour
 
         cardGamePresenter.OnChooseChance += cardGamePresenter.Deactivate;
         cardGamePresenter.OnChooseChance += cardMoveAIPresenter.Activate;
+        cardGamePresenter.OnChooseChance_Values += cardComparisionPresenter.UserCompare;
 
         cardMoveAIPresenter.OnStartMove += cardAIHighlightPresenter.ActivateChooseHighlight;
         cardMoveAIPresenter.OnEndMove += cardAIHighlightPresenter.DeactivateChooseHighlight;
@@ -104,7 +111,12 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardAISpawnerPresenter.OnSpawnCard_Values += cardComparisionPresenter.OnSpawnedCard;
 
         cardComparisionPresenter.OnSuccessGame += cardGameWalletPresenter.IncreaseMoney;
-        cardComparisionPresenter.OnLoseGame -= cardGameWalletPresenter.DecreaseMoney;
+        cardComparisionPresenter.OnLoseGame += cardGameWalletPresenter.DecreaseMoney;
+        cardComparisionPresenter.OnGetCards_Values += cardHistoryPresenter.AddCardComboHistory;
+
+        cardComparisionPresenter.OnGetCards += cardUserSpawnerPresenter.DestroyCard;
+        cardComparisionPresenter.OnGetCards += cardAISpawnerPresenter.DestroyCard;
+        cardComparisionPresenter.OnGetCards += cardUserMovePresenter.Activate;
     }
 
     private void Dispose()

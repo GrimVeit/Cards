@@ -14,6 +14,8 @@ public class CardGameModel
     public event Action OnChooseIncrease;
     public event Action OnChooseDecrease;
 
+    public event Action OnReset;
+
     private bool chanceIncrease;
 
     public void Initialize()
@@ -52,5 +54,10 @@ public class CardGameModel
     {
         OnChooseChance?.Invoke();
         OnChooseChance_Values?.Invoke(chanceIncrease);
+    }
+
+    public void Reset()
+    {
+        OnReset?.Invoke();
     }
 }

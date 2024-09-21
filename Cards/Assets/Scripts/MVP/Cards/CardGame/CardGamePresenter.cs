@@ -36,6 +36,7 @@ public class CardGamePresenter
         cardGameModel.OnChooseIncrease += cardGameView.ChooseIncrease;
         cardGameModel.OnChooseDecrease += cardGameView.ChooseDecrease;
         cardGameModel.OnChooseChance_Values += cardGameView.OnChoose;
+        cardGameModel.OnReset += cardGameView.ResetData;
     }
 
     private void DeactivateEvents()
@@ -49,6 +50,7 @@ public class CardGamePresenter
         cardGameModel.OnChooseIncrease -= cardGameView.ChooseIncrease;
         cardGameModel.OnChooseDecrease -= cardGameView.ChooseDecrease;
         cardGameModel.OnChooseChance_Values -= cardGameView.OnChoose;
+        cardGameModel.OnReset -= cardGameView.ResetData;
     }
 
     #region Input
@@ -61,6 +63,11 @@ public class CardGamePresenter
     public void Deactivate()
     {
         cardGameModel.Deactivate();
+    }
+
+    public void Reset()
+    {
+        cardGameModel.Reset();
     }
 
     public event Action<bool> OnChooseChance_Values

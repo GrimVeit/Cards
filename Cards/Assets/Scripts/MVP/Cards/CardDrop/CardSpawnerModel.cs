@@ -5,6 +5,8 @@ public class CardSpawnerModel
     public event Action<CardValue> OnSpawnCard_Values;
     public event Action OnSpawnCard;
 
+    public event Action OnDestroyCard;
+
     private CardValues cardValues;
 
     public CardSpawnerModel(CardValues cardValues)
@@ -18,5 +20,10 @@ public class CardSpawnerModel
 
         OnSpawnCard_Values?.Invoke(cardValue);
         OnSpawnCard?.Invoke();
+    }
+
+    public void DestroyCard()
+    {
+        OnDestroyCard?.Invoke();
     }
 }

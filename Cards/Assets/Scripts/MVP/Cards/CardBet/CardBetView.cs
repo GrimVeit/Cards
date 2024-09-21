@@ -30,6 +30,7 @@ public class CardBetView : View
     public void Activate()
     {
         displayBet.SetActive(true);
+        continueButton.gameObject.SetActive(true);
 
         increaseBetButton.onClick.AddListener(HandlerClickToIncreaseButton);
         decreaseBetButton.onClick.AddListener(HandlerClickToDecreaseButton);
@@ -44,6 +45,7 @@ public class CardBetView : View
 
         increaseBetButton.gameObject.SetActive(false);
         decreaseBetButton.gameObject.SetActive(false);
+        continueButton.gameObject.SetActive(false);
     }
 
     public void DisplayBet(int bet)

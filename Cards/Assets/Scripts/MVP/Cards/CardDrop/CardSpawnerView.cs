@@ -33,6 +33,11 @@ public class CardSpawnerView : View, IIdentify
         currentCardView.SetData(cardValue);
     }
 
+    public void DestroyCard()
+    {
+        Destroy(currentCardView.gameObject);
+    }
+
     private void HandlerSpawnCard()
     {
         OnSpawnCard?.Invoke();

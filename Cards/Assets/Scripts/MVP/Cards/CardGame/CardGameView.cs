@@ -81,6 +81,12 @@ public class CardGameView : View
         }
     }
 
+    public void ResetData()
+    {
+        increaseImage.sprite = increaseNormalSprite;
+        decreaseImage.sprite = decreaseNormalSprite;
+    }
+
 
     #region
 

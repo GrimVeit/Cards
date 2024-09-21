@@ -9,13 +9,13 @@ public class CardGameWalletModel
     public event Action OnMoneySuccesTransitToBank;
     public event Action<int> OnChangeMoney;
 
-    //private IMoneyProvider moneyProvider;
+    private IMoneyProvider moneyProvider;
 
     private int bet;
 
-    public CardGameWalletModel()
+    public CardGameWalletModel(IMoneyProvider moneyProvider)
     {
-        //this.moneyProvider = moneyProvider;
+        this.moneyProvider = moneyProvider;
     }
 
     public void Initialize()
@@ -24,7 +24,7 @@ public class CardGameWalletModel
         OnChangeMoney?.Invoke(Money);
     }
 
-    public void Destroy()
+    public void Dispose()
     {
 
     }
@@ -55,7 +55,7 @@ public class CardGameWalletModel
 
     public void TransitMoneyToBank()
     {
-        //moneyProvider.SendMoney(Money);
+        moneyProvider.SendMoney(Money);
         Money = 0;
         OnChangeMoney?.Invoke(Money);
 

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CardGameWalletPresenter : MonoBehaviour
+public class CardGameWalletPresenter
 {
     private CardGameWalletModel cardGameWalletModel;
     private CardGameWalletView cardGameWalletView;
@@ -15,20 +15,30 @@ public class CardGameWalletPresenter : MonoBehaviour
     public void Initialize()
     {
         ActivateEvents();
+
+        cardGameWalletModel.Initialize();
+        cardGameWalletView.Initialize();
     }
 
     public void Dispose()
     {
         DeactivateEvents();
+
+        cardGameWalletModel.Dispose();
+        cardGameWalletView.Dispose();
     }
 
     private void ActivateEvents()
     {
+        cardGameWalletView.OnClickToTransferMoneyToBankButton += cardGameWalletModel.TransitMoneyToBank;
+
         cardGameWalletModel.OnChangeMoney += cardGameWalletView.SendMoneyDisplay;
     }
 
     private void DeactivateEvents()
     {
+        cardGameWalletView.OnClickToTransferMoneyToBankButton -= cardGameWalletModel.TransitMoneyToBank;
+
         cardGameWalletModel.OnChangeMoney -= cardGameWalletView.SendMoneyDisplay;
     }
 

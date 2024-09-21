@@ -6,28 +6,37 @@ using UnityEngine;
 
 public class BankView : View
 {
-    [SerializeField] private TextMeshProUGUI textMoney;
-    [SerializeField] private Transform moneyDisplay;
-
-    private Vector3 defaultMoneyTableScale;
+    [SerializeField] private List<BankDisplayView> bankDisplayViews = new List<BankDisplayView>();
 
     public void Initialize()
     {
-        defaultMoneyTableScale = moneyDisplay.localScale;
+        for (int i = 0; i < bankDisplayViews.Count; i++)
+        {
+            bankDisplayViews[i].Initialize();
+        }
     }
 
     public void AddMoney()
     {
-        moneyDisplay.DOScale(new Vector3(1.5f, 1.5f, 1.5f), 0.1f).OnComplete(() => moneyDisplay.DOScale(defaultMoneyTableScale, 0.2f));
+        for (int i = 0; i < bankDisplayViews.Count; i++)
+        {
+            bankDisplayViews[i].AddMoney();
+        }
     }
 
     public void RemoveMoney()
     {
-        moneyDisplay.DOScale(new Vector3(1.1f, 1.1f, 1.1f), 0.1f).OnComplete(() => moneyDisplay.DOScale(defaultMoneyTableScale, 0.2f));
+        for (int i = 0; i < bankDisplayViews.Count; i++)
+        {
+            bankDisplayViews[i].RemoveMoney();
+        }
     }
 
     public void SendMoneyDisplay(float money)
     {
-        textMoney.text = money.ToString();
+        for (int i = 0; i < bankDisplayViews.Count; i++)
+        {
+            bankDisplayViews[i].SendMoneyDisplay(money);
+        }
     }
 }

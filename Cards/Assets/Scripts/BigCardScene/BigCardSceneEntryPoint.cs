@@ -13,6 +13,8 @@ public class BigCardSceneEntryPoint : MonoBehaviour
     private UIBigCardSceneRoot sceneRoot;
     private ViewContainer viewContainer;
 
+    private BankPresenter bankPresenter;
+
     private CardBetPresenter cardUserBetPresenter;
 
     private CardMovePresenter cardUserMovePresenter;
@@ -41,6 +43,9 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         viewContainer = sceneRoot.GetComponent<ViewContainer>();
         viewContainer.Initialize();
 
+        bankPresenter = new BankPresenter(new BankModel(), viewContainer.GetView<BankView>());
+        bankPresenter.Initialize();
+
         cardUserMovePresenter = new CardMovePresenter(new CardMoveModel(), viewContainer.GetView<CardMoveView>());
         cardUserMovePresenter.Initialize();
 
@@ -68,7 +73,7 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardComparisionPresenter = new CardComparisionPresenter(new CardComparisionModel());
         cardComparisionPresenter.Initialize();
 
-        cardGameWalletPresenter = new CardGameWalletPresenter(new CardGameWalletModel(), viewContainer.GetView<CardGameWalletView>());
+        cardGameWalletPresenter = new CardGameWalletPresenter(new CardGameWalletModel(bankPresenter), viewContainer.GetView<CardGameWalletView>());
         cardGameWalletPresenter.Initialize();
 
         cardHistoryPresenter = new CardHistoryPresenter(new CardHistoryModel(), viewContainer.GetView<CardHistoryView>());
@@ -77,7 +82,10 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardUserMovePresenter.Activate();
 
         ActivateComparisedCardEvents();
+        ActivateTransferPanelsEvents();
         ActivateActions();
+
+        sceneRoot.Activate();
     }
 
     private void ActivateActions()
@@ -117,6 +125,16 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardComparisionPresenter.OnGetCards += cardUserSpawnerPresenter.DestroyCard;
         cardComparisionPresenter.OnGetCards += cardAISpawnerPresenter.DestroyCard;
         cardComparisionPresenter.OnGetCards += cardUserMovePresenter.Activate;
+    }
+
+    private void ActivateTransferPanelsEvents()
+    {
+        sceneRoot.OnClickToMoveWinningsButton += sceneRoot.OpenMoveWinningsPanel;
+        sceneRoot.OnClickToBackFromMoveWinningsButton += sceneRoot.CloseMoveWinningsPanel;
+
+        cardGameWalletPresenter.OnMoneySuccesTransitToBank += sceneRoot.CloseMoveWinningsPanel;
+        cardGameWalletPresenter.OnMoneySuccesTransitToBank += sceneRoot.OpenMoveMoneyPanel;
+        sceneRoot.OnClickToContinueGameButton += sceneRoot.CloseMoveMoneyPanel;
     }
 
     private void Dispose()

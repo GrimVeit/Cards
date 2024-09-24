@@ -26,6 +26,11 @@ public class CardComparisionPresenter
         cardComparisionModel.OnCardSpawned(cardValue);
     }
 
+    public void SubmitGetCards()
+    {
+        cardComparisionModel.SubmitGetCards();
+    }
+
     public void UserCompare(bool compare)
     {
         cardComparisionModel.UserCompare(compare);

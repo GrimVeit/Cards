@@ -120,6 +120,12 @@ public class BigCardSceneEntryPoint : MonoBehaviour
 
         cardComparisionPresenter.OnSuccessGame += cardGameWalletPresenter.IncreaseMoney;
         cardComparisionPresenter.OnLoseGame += cardGameWalletPresenter.DecreaseMoney;
+        cardComparisionPresenter.OnSuccessGame += sceneRoot.OpenSuccessPanel;
+        cardComparisionPresenter.OnLoseGame += sceneRoot.OpenLosePanel;
+
+        sceneRoot.OnClickToContinueGameButton_SuccessPanel += cardComparisionPresenter.SubmitGetCards;
+        sceneRoot.OnClickToContinueGameButton_LosePanel += cardComparisionPresenter.SubmitGetCards;
+
         cardComparisionPresenter.OnGetCards_Values += cardHistoryPresenter.AddCardComboHistory;
 
         cardComparisionPresenter.OnGetCards += cardUserSpawnerPresenter.DestroyCard;
@@ -130,11 +136,14 @@ public class BigCardSceneEntryPoint : MonoBehaviour
     private void ActivateTransferPanelsEvents()
     {
         sceneRoot.OnClickToMoveWinningsButton += sceneRoot.OpenMoveWinningsPanel;
-        sceneRoot.OnClickToBackFromMoveWinningsButton += sceneRoot.CloseMoveWinningsPanel;
+        sceneRoot.OnClickToBacksButton_MoveWinningsPanel += sceneRoot.OpenMainPanel2;
 
-        cardGameWalletPresenter.OnMoneySuccesTransitToBank += sceneRoot.CloseMoveWinningsPanel;
+        cardGameWalletPresenter.OnMoneySuccesTransitToBank += sceneRoot.OpenMainPanel2;
         cardGameWalletPresenter.OnMoneySuccesTransitToBank += sceneRoot.OpenMoveMoneyPanel;
-        sceneRoot.OnClickToContinueGameButton += sceneRoot.CloseMoveMoneyPanel;
+        sceneRoot.OnClickToContinueGameButton_MoveMoneyPanel += sceneRoot.OpenMainPanel2;
+
+        sceneRoot.OnClickToContinueGameButton_LosePanel += sceneRoot.OpenMainPanel2;
+        sceneRoot.OnClickToContinueGameButton_SuccessPanel += sceneRoot.OpenMainPanel2;
     }
 
     private void Dispose()

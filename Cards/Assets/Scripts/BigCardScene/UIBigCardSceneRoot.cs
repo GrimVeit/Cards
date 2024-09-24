@@ -1,33 +1,41 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UIBigCardSceneRoot : MonoBehaviour
 {
     [SerializeField] private MainPanel_BigCardScene mainPanel;
+    [SerializeField] private MainPanel2_BigCardScene mainPanel2;
     [SerializeField] private MoveWinningsPanel_BigCardScene moveWinningsPanel;
     [SerializeField] private MoveMoneyPanel_BigCardScene moveMoneyPanel;
+    [SerializeField] private SuccessPanel_BigCardScene successPanel;
+    [SerializeField] private LosePanel_BigCardScene losePanel;
 
     private Panel currentPanel;
 
     public void Initialize()
     {
         mainPanel.Initialize();
+        mainPanel2.Initialize();
         moveWinningsPanel.Initialize();
         moveMoneyPanel.Initialize();
+        successPanel.Initialize();
+        losePanel.Initialize();
     }
 
     public void Dispose()
     {
         mainPanel.Dispose();
+        mainPanel2.Dispose();
         moveWinningsPanel.Dispose();
         moveMoneyPanel.Dispose();
+        successPanel.Dispose();
+        losePanel.Dispose();
     }
 
     public void Activate()
     {
-        OpenPanel(mainPanel);
+        OpenOtherPanel(mainPanel);
+        OpenMainPanel2();
     }
 
     public void Deactivate()
@@ -35,24 +43,29 @@ public class UIBigCardSceneRoot : MonoBehaviour
         ClosePanel();
     }
 
-    public void OpenMoveWinningsPanel()
+    public void OpenMainPanel2()
     {
-        OpenOtherPanel(moveWinningsPanel);
+        OpenPanel(mainPanel2);
     }
 
-    public void CloseMoveWinningsPanel()
+    public void OpenMoveWinningsPanel()
     {
-        CloseOtherPanel(moveWinningsPanel);
+        OpenPanel(moveWinningsPanel);
     }
 
     public void OpenMoveMoneyPanel()
     {
-        OpenOtherPanel(moveMoneyPanel);
+        OpenPanel(moveMoneyPanel);
     }
 
-    public void CloseMoveMoneyPanel()
+    public void OpenSuccessPanel()
     {
-        CloseOtherPanel(moveMoneyPanel);
+        OpenPanel(successPanel);
+    }
+
+    public void OpenLosePanel()
+    {
+        OpenPanel(losePanel);
     }
 
     public void OpenPanel(Panel panel)
@@ -80,7 +93,7 @@ public class UIBigCardSceneRoot : MonoBehaviour
 
     #region Input
 
-    public event Action OnClickToBackButton
+    public event Action OnClickToBackButton_MainPanel
     {
         add { mainPanel.OnClickToBackButton += value; }
         remove { mainPanel.OnClickToBackButton -= value; }
@@ -92,16 +105,40 @@ public class UIBigCardSceneRoot : MonoBehaviour
         remove { mainPanel.OnClickToMoveWinningsButton -= value; }
     }
 
-    public event Action OnClickToBackFromMoveWinningsButton
+    public event Action OnClickToBacksButton_MoveWinningsPanel
     {
         add { moveWinningsPanel.OnClickToBackButton += value; }
         remove { moveWinningsPanel.OnClickToBackButton -= value; }
     }
 
-    public event Action OnClickToContinueGameButton
+    public event Action OnClickToContinueGameButton_MoveMoneyPanel
     {
         add { moveMoneyPanel.OnClickToContinueButton += value; }
         remove { moveMoneyPanel.OnClickToContinueButton -= value; }
+    }
+
+    public event Action OnClickToContinueGameButton_SuccessPanel
+    {
+        add { successPanel.OnClickToContinueButton += value; }
+        remove { successPanel.OnClickToContinueButton -= value; }
+    }
+
+    public event Action OnClickToExitGameButton_SuccessPanel
+    {
+        add { successPanel.OnClickToExitButton += value; }
+        remove { successPanel.OnClickToExitButton -= value; }
+    }
+
+    public event Action OnClickToContinueGameButton_LosePanel
+    {
+        add { losePanel.OnClickToContinueButton += value; }
+        remove { losePanel.OnClickToContinueButton -= value; }
+    }
+
+    public event Action OnClickToExitGameButton_LosePanel
+    {
+        add { losePanel.OnClickToExitButton += value; }
+        remove { losePanel.OnClickToExitButton -= value; }
     }
 
     #endregion

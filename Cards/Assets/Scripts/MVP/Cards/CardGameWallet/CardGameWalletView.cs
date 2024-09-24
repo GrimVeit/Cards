@@ -8,13 +8,15 @@ using UnityEngine.UI;
 public class CardGameWalletView : View
 {
     [SerializeField] private Button buttonTransferMoneyToBank;
-    [SerializeField] private List<BankDisplayView> bankDisplayView = new List<BankDisplayView>();
+    [SerializeField] private List<BankDisplayView> displayesAllMoney = new List<BankDisplayView>();
+    [SerializeField] private BankDisplayView displayAddMoney;
+    [SerializeField] private BankDisplayView displayRemoveMoney;
 
     public void Initialize()
     {
-        for (int i = 0; i < bankDisplayView.Count; i++)
+        for (int i = 0; i < displayesAllMoney.Count; i++)
         {
-            bankDisplayView[i].Initialize();
+            displayesAllMoney[i].Initialize();
         }
 
         buttonTransferMoneyToBank.onClick.AddListener(HandlerClickToTransferMoneyToBank);
@@ -22,9 +24,9 @@ public class CardGameWalletView : View
 
     public void Dispose()
     {
-        for (int i = 0; i < bankDisplayView.Count; i++)
+        for (int i = 0; i < displayesAllMoney.Count; i++)
         {
-            bankDisplayView[i].Initialize();
+            displayesAllMoney[i].Initialize();
         }
 
         buttonTransferMoneyToBank.onClick.RemoveListener(HandlerClickToTransferMoneyToBank);
@@ -32,10 +34,20 @@ public class CardGameWalletView : View
 
     public void SendMoneyDisplay(int coins)
     {
-        for (int i = 0; i < bankDisplayView.Count; i++)
+        for (int i = 0; i < displayesAllMoney.Count; i++)
         {
-            bankDisplayView[i].SendMoneyDisplay(coins);
+            displayesAllMoney[i].SendMoneyDisplay(coins);
         }
+    }
+
+    public void OnAddMoneyDisplay(int coins)
+    {
+        displayAddMoney.SendMoneyDisplay(coins);
+    }
+
+   public void OnRemoveMoneyDisplay(int coins) 
+    {
+        displayRemoveMoney.SendMoneyDisplay(-coins);
     }
 
     #region Input

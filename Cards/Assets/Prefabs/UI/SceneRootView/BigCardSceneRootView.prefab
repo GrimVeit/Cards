@@ -1542,9 +1542,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonTransferMoneyToBank: {fileID: 2512772046751296281}
-  bankDisplayView:
+  displayesAllMoney:
   - {fileID: 2266122712864734905}
   - {fileID: 849746012714879546}
+  displayAddMoney: {fileID: 6673151815062393067}
+  displayRemoveMoney: {fileID: 282840771703102381}
 --- !u!1 &1794733733359892385
 GameObject:
   m_ObjectHideFlags: 0

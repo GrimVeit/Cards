@@ -1,17 +1,17 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class CardGameWalletModel
 {
     public int Money { get; private set; }
     public event Action OnMoneySuccesTransitToBank;
     public event Action<int> OnChangeMoney;
+    public event Action<int> OnAddMoney;
+    public event Action<int> OnRemoveMoney;
 
     private IMoneyProvider moneyProvider;
 
     private int bet;
+    private int multiply;
 
     public CardGameWalletModel(IMoneyProvider moneyProvider)
     {
@@ -38,25 +38,34 @@ public class CardGameWalletModel
     {
         if(Money == 0)
         {
-            Money = bet;
+            multiply = bet;
+            Money = multiply;
+            OnAddMoney?.Invoke(multiply);
             OnChangeMoney?.Invoke(Money);
             return;
         }
 
-        Money *= bet;
+        multiply *= multiply;
+        OnAddMoney?.Invoke(multiply);
+
+        Money += multiply;
         OnChangeMoney?.Invoke(Money);
     }
 
     public void DecreaseMoney()
     {
-        Money = 0;
+        OnRemoveMoney?.Invoke(Money);
+
+        multiply = 0;
+        Money = multiply;
         OnChangeMoney?.Invoke(Money);
     }
 
     public void TransitMoneyToBank()
     {
         moneyProvider.SendMoney(Money);
-        Money = 0;
+        multiply = 0;
+        Money = multiply;
         OnChangeMoney?.Invoke(Money);
 
         OnMoneySuccesTransitToBank?.Invoke();

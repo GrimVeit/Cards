@@ -33,6 +33,8 @@ public class CardGameWalletPresenter
         cardGameWalletView.OnClickToTransferMoneyToBankButton += cardGameWalletModel.TransitMoneyToBank;
 
         cardGameWalletModel.OnChangeMoney += cardGameWalletView.SendMoneyDisplay;
+        cardGameWalletModel.OnAddMoney += cardGameWalletView.OnAddMoneyDisplay;
+        cardGameWalletModel.OnRemoveMoney += cardGameWalletView.OnRemoveMoneyDisplay;
     }
 
     private void DeactivateEvents()
@@ -40,6 +42,8 @@ public class CardGameWalletPresenter
         cardGameWalletView.OnClickToTransferMoneyToBankButton -= cardGameWalletModel.TransitMoneyToBank;
 
         cardGameWalletModel.OnChangeMoney -= cardGameWalletView.SendMoneyDisplay;
+        cardGameWalletModel.OnAddMoney -= cardGameWalletView.OnAddMoneyDisplay;
+        cardGameWalletModel.OnRemoveMoney -= cardGameWalletView.OnRemoveMoneyDisplay;
     }
 
     #region Input

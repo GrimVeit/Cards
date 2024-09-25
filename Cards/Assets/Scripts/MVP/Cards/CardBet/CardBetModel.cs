@@ -14,9 +14,12 @@ public class CardBetModel
     private int bet;
     private int currentBetIndex = 0;
 
-    public CardBetModel(BetAmounts betAmounts)
+    private ITutorialProvider tutorialProvider;
+
+    public CardBetModel(BetAmounts betAmounts, ITutorialProvider tutorialProvider)
     {
         this.betAmounts = betAmounts;
+        this.tutorialProvider = tutorialProvider;
     }
 
     public void Initialize()
@@ -36,11 +39,17 @@ public class CardBetModel
         OnActivate?.Invoke();
 
         SubmitBet();
+
+        if (tutorialProvider.IsActiveTutorial())
+            tutorialProvider.ActivateTutorial("ChooseMoneyBet");
     }
 
     public void Deactivate()
     {
         OnDeactivate?.Invoke();
+
+        if (tutorialProvider.IsActiveTutorial())
+            tutorialProvider.DeactivateTutorial("ChooseMoneyBet");
     }
 
     public void IncreaseBet()

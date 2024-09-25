@@ -12,6 +12,12 @@ public class CardMoveModel
     public event Action OnTeleporting;
 
     private bool isActive = true;
+    private ITutorialProvider tutorialProvider;
+
+    public CardMoveModel(ITutorialProvider tutorialProvider)
+    {
+        this.tutorialProvider = tutorialProvider;
+    }
 
 
     public void StartMove()
@@ -47,11 +53,17 @@ public class CardMoveModel
     public void Activate()
     {
         isActive = true;
+
+        if(tutorialProvider.IsActiveTutorial())
+            tutorialProvider.ActivateTutorial("TakeCard");
     }
 
 
     public void Deactivate()
     {
         isActive = false;
+
+        if (tutorialProvider.IsActiveTutorial())
+            tutorialProvider.DeactivateTutorial("TakeCard");
     }
 }

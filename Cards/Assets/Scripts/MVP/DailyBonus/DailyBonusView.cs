@@ -12,20 +12,16 @@ public class DailyBonusView : View
 
     [SerializeField] private List<Bonus> bonuses = new List<Bonus>();
 
-    [SerializeField] private TextMeshProUGUI textCoins;
+    [SerializeField] private ScrollRect scrollRect;
+    [SerializeField] private TextMeshProUGUI textCoins; 
     [SerializeField] private Button buttonDailyBonus;
-    [SerializeField] private Image buttonDailyBonusImage;
-    [SerializeField] private Sprite dailyBonusAvailableSprite;
-    [SerializeField] private Sprite dailyBonusUnvailableSprite;
-    [SerializeField] private Vector3 spinVector;
-    [SerializeField] private Transform spinTransform;
     [SerializeField] private Transform centerPoint;
-    [SerializeField] private float minSpinSpeed;
-    [SerializeField] private float maxSpinSpeed;
+    [SerializeField] private float minScrollSpeed;
+    [SerializeField] private float maxScrollSpeed;
     [SerializeField] private float minDuration;
     [SerializeField] private float maxDuration;
 
-    private IEnumerator rotateSpin_Coroutine;
+    private IEnumerator spin_Coroutine;
 
     public void Initialize()
     {
@@ -39,12 +35,12 @@ public class DailyBonusView : View
 
     public void DeactivateSpinButton() 
     {
-        buttonDailyBonusImage.sprite = dailyBonusUnvailableSprite;
+        buttonDailyBonus.gameObject.SetActive(false);
     }
 
     public void ActivateSpinButton()
     {
-        buttonDailyBonusImage.sprite = dailyBonusAvailableSprite;
+        buttonDailyBonus.gameObject.SetActive(true);
     }
 
     public void DisplayCoins(int coins)
@@ -52,20 +48,44 @@ public class DailyBonusView : View
         textCoins.text = coins.ToString();
     }
 
-
     public void StartSpin()
     {
-        if (rotateSpin_Coroutine != null)
-            Coroutines.Stop(rotateSpin_Coroutine);
+        if (spin_Coroutine != null)
+            Coroutines.Stop(spin_Coroutine);
 
-        rotateSpin_Coroutine = RotateSpin_Coroutine();
-        Coroutines.Start(rotateSpin_Coroutine);
+        spin_Coroutine = Spin();
+        Coroutines.Start(spin_Coroutine);
     }
 
-    private IEnumerator RotateSpin_Coroutine()
+    //private IEnumerator RotateSpin_Coroutine()
+    //{
+    //    float elapsedTime = 0f;
+    //    float startSpeed = UnityEngine.Random.Range(minSpinSpeed, maxSpinSpeed);
+    //    float duration = UnityEngine.Random.Range(minDuration, maxDuration);
+    //    float endSpeed = 0f;
+
+    //    while (elapsedTime < duration)
+    //    {
+    //        elapsedTime += Time.deltaTime;
+    //        float currentSpeed = Mathf.Lerp(startSpeed, endSpeed, elapsedTime / duration);
+
+    //        //scrollRect.verticalNormalizedPosition += currentSpeed * Time.deltaTime;
+    //        //scrollRect.verticalNormalizedPosition = scrollRect.verticalNormalizedPosition % 1; // Зацикливание
+
+    //        spinTransform.Rotate(spinVector * currentSpeed * Time.deltaTime);
+
+    //        yield return null;
+    //    }
+
+    //    Bonus bonus = GetClosestBonus();
+    //    Debug.Log(bonus.Coins);
+    //    OnGetBonus?.Invoke(bonus.Coins);
+    //}
+
+    private IEnumerator Spin()
     {
         float elapsedTime = 0f;
-        float startSpeed = UnityEngine.Random.Range(minSpinSpeed, maxSpinSpeed);
+        float startSpeed = UnityEngine.Random.Range(minScrollSpeed, maxScrollSpeed);
         float duration = UnityEngine.Random.Range(minDuration, maxDuration);
         float endSpeed = 0f;
 
@@ -74,17 +94,20 @@ public class DailyBonusView : View
             elapsedTime += Time.deltaTime;
             float currentSpeed = Mathf.Lerp(startSpeed, endSpeed, elapsedTime / duration);
 
-            //scrollRect.verticalNormalizedPosition += currentSpeed * Time.deltaTime;
-            //scrollRect.verticalNormalizedPosition = scrollRect.verticalNormalizedPosition % 1; // Зацикливание
+            //OnWheelSpeed?.Invoke(_idSlotMach, currentSpeed);
 
-            spinTransform.Rotate(spinVector * currentSpeed * Time.deltaTime);
+            scrollRect.verticalNormalizedPosition += currentSpeed * Time.deltaTime;
+            scrollRect.verticalNormalizedPosition = scrollRect.verticalNormalizedPosition % 1; // Зацикливание
+
 
             yield return null;
         }
 
+
         Bonus bonus = GetClosestBonus();
         Debug.Log(bonus.Coins);
         OnGetBonus?.Invoke(bonus.Coins);
+
     }
 
     private Bonus GetClosestBonus()

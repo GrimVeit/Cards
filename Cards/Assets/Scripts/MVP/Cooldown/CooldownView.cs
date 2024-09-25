@@ -10,9 +10,6 @@ public class CooldownView : View, IIdentify
     public event Action OnClickCooldownButton;
 
     [SerializeField] private Button cooldownButton;
-    [SerializeField] private Image buttonImage;
-    [SerializeField] private Sprite spriteActivatedButton;
-    [SerializeField] private Sprite spriteDeactivatedButton;
     [SerializeField] private TextMeshProUGUI textCountdown;
 
     public string GetID() => viewID;
@@ -32,16 +29,14 @@ public class CooldownView : View, IIdentify
         textCountdown.text = time;
     }
 
-    public void ActivateButton()
+    public void OnActivateButton()
     {
-        buttonImage.sprite = spriteActivatedButton;
-        textCountdown.gameObject.SetActive(false);
+
     }
 
-    public void DeactivateButton()
+    public void OnDeactivateButton()
     {
-        buttonImage.sprite = spriteDeactivatedButton;
-        textCountdown.gameObject.SetActive(true);
+
     }
 
     private void HandlerClickToCooldownButton()

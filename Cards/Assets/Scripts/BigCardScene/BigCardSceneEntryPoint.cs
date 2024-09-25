@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BigCardSceneEntryPoint : MonoBehaviour
@@ -13,6 +11,7 @@ public class BigCardSceneEntryPoint : MonoBehaviour
     private UIBigCardSceneRoot sceneRoot;
     private ViewContainer viewContainer;
 
+    private TutorialPresenter tutorialPresenter;
     private BankPresenter bankPresenter;
 
     private CardBetPresenter cardUserBetPresenter;
@@ -46,7 +45,10 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         bankPresenter = new BankPresenter(new BankModel(), viewContainer.GetView<BankView>());
         bankPresenter.Initialize();
 
-        cardUserMovePresenter = new CardMovePresenter(new CardMoveModel(), viewContainer.GetView<CardMoveView>());
+        tutorialPresenter = new TutorialPresenter(new TutorialModel(), viewContainer.GetView<TutorialView>());
+        tutorialPresenter.Initialize();
+
+        cardUserMovePresenter = new CardMovePresenter(new CardMoveModel(tutorialPresenter), viewContainer.GetView<CardMoveView>());
         cardUserMovePresenter.Initialize();
 
         cardUserSpawnerPresenter = new CardSpawnerPresenter(new CardSpawnerModel(cardValues), viewContainer.GetView<CardSpawnerView>("User"));
@@ -55,7 +57,7 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardAISpawnerPresenter = new CardSpawnerPresenter(new CardSpawnerModel(cardValues), viewContainer.GetView<CardSpawnerView>("AI"));
         cardAISpawnerPresenter.Initialize();
 
-        cardUserBetPresenter = new CardBetPresenter(new CardBetModel(amounts), viewContainer.GetView<CardBetView>());
+        cardUserBetPresenter = new CardBetPresenter(new CardBetModel(amounts, tutorialPresenter), viewContainer.GetView<CardBetView>());
         cardUserBetPresenter.Initialize();
 
         cardMoveAIPresenter = new CardMoveAIPresenter(new CardMoveAIModel(), viewContainer.GetView<CardMoveAIView>());
@@ -67,10 +69,10 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardAIHighlightPresenter = new CardHighlightPresenter(new CardHighlightModel(), viewContainer.GetView<CardHighlightView>("AI"));
         cardAIHighlightPresenter.Initilize();
 
-        cardGamePresenter = new CardGamePresenter(new CardGameModel(), viewContainer.GetView<CardGameView>());
+        cardGamePresenter = new CardGamePresenter(new CardGameModel(tutorialPresenter), viewContainer.GetView<CardGameView>());
         cardGamePresenter.Initialize();
 
-        cardComparisionPresenter = new CardComparisionPresenter(new CardComparisionModel());
+        cardComparisionPresenter = new CardComparisionPresenter(new CardComparisionModel(tutorialPresenter));
         cardComparisionPresenter.Initialize();
 
         cardGameWalletPresenter = new CardGameWalletPresenter(new CardGameWalletModel(bankPresenter), viewContainer.GetView<CardGameWalletView>());

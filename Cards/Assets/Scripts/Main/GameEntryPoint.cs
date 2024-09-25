@@ -96,7 +96,7 @@ public class GameEntryPoint
         yield return LoadScene(Scenes.INITIALIZE);
         yield return new WaitForSeconds(0.2f);
 
-        coroutines.StartCoroutine(LoadAndStartBigCardScene());
+        coroutines.StartCoroutine(LoadAndStartMainMenu());
 
         yield return rootView.HideLoadingScreen();
     }
@@ -117,10 +117,7 @@ public class GameEntryPoint
         var sceneEntryPoint = Object.FindObjectOfType<MainMenuEntryPoint>();
         sceneEntryPoint.Run(rootView);
 
-        //sceneEntryPoint.GoToSlots1_Action += () => coroutines.StartCoroutine(LoadAndStartSceneSlots1());
-        //sceneEntryPoint.GoToSlots2_Action += () => coroutines.StartCoroutine(LoadAndStartSceneSlots2());
-        //sceneEntryPoint.GoToSlots3_Action += () => coroutines.StartCoroutine(LoadAndStartSceneSlots3());
-        //sceneEntryPoint.GoToMiniGame_Action += () => coroutines.StartCoroutine(LoadAndStartSceneMiniGame());
+        sceneEntryPoint.GoToMiniGame_Action += () => coroutines.StartCoroutine(LoadAndStartBigCardScene());
 
         yield return rootView.HideLoadingScreen();
     }

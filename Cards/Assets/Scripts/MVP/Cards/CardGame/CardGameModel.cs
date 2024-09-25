@@ -17,6 +17,12 @@ public class CardGameModel
     public event Action OnReset;
 
     private bool chanceIncrease;
+    private ITutorialProvider tutorialProvider;
+
+    public CardGameModel(ITutorialProvider tutorialProvider)
+    {
+        this.tutorialProvider = tutorialProvider;
+    }
 
     public void Initialize()
     {
@@ -31,11 +37,17 @@ public class CardGameModel
     public void Activate()
     {
         OnActivate?.Invoke();
+
+        if (tutorialProvider.IsActiveTutorial())
+            tutorialProvider.ActivateTutorial("ChooseBet");
     }
 
     public void Deactivate()
     {
         OnDeactivate?.Invoke();
+
+        if (tutorialProvider.IsActiveTutorial())
+            tutorialProvider.DeactivateTutorial("ChooseBet");
     }
 
     public void Increase()

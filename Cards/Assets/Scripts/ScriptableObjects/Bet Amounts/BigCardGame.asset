@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a37a9d365f92c478072ee689da46a4, type: 3}
   m_Name: BigCardGame
   m_EditorClassIdentifier: 
-  betValues: 050000000a0000000f000000140000003200000064000000
+  betValues: 0200000003000000050000000a000000

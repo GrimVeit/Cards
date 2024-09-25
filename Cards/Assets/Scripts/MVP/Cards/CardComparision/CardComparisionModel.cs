@@ -16,6 +16,13 @@ public class CardComparisionModel
 
     private bool isGetAllCards;
 
+    private ITutorialProvider tutorialProvider;
+
+    public CardComparisionModel(ITutorialProvider tutorialProvider)
+    {
+        this.tutorialProvider = tutorialProvider;
+    }
+
     public void OnCardSpawned(CardValue cardValue)
     {
         cards.Add(cardValue);
@@ -23,6 +30,9 @@ public class CardComparisionModel
         if(cards.Count == 2)
         {
             isGetAllCards = true;
+
+            if (tutorialProvider.IsActiveTutorial())
+                tutorialProvider.Deactivate();
 
             resultGame = cards[0].CardNominal < cards[1].CardNominal;
 

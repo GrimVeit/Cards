@@ -19,8 +19,8 @@ public class CooldownPresenter
         cooldownButtonView.OnClickCooldownButton += cooldownButtonModel.ClickButton;
 
         cooldownButtonModel.OnCountdownTimer += cooldownButtonView.ChangeTimer;
-        cooldownButtonModel.OnSetAvailableButton += cooldownButtonView.ActivateButton;
-        cooldownButtonModel.OnSetUnvailableButton += cooldownButtonView.DeactivateButton;
+        cooldownButtonModel.OnSetAvailableButton += cooldownButtonView.OnActivateButton;
+        cooldownButtonModel.OnSetUnvailableButton += cooldownButtonView.OnDeactivateButton;
 
         cooldownButtonModel.SetID(cooldownButtonView.GetID());
         cooldownButtonModel.Initialize();
@@ -42,8 +42,8 @@ public class CooldownPresenter
         //cooldownButtonView.OnClickCooldownButton -= cooldownButtonModel.ActivateCooldown;
 
         cooldownButtonModel.OnCountdownTimer -= cooldownButtonView.ChangeTimer;
-        cooldownButtonModel.OnSetAvailableButton -= cooldownButtonView.ActivateButton;
-        cooldownButtonModel.OnSetUnvailableButton -= cooldownButtonView.DeactivateButton;
+        cooldownButtonModel.OnSetAvailableButton -= cooldownButtonView.OnActivateButton;
+        cooldownButtonModel.OnSetUnvailableButton -= cooldownButtonView.OnDeactivateButton;
 
         cooldownButtonModel.Dispose();
         cooldownButtonView.Dispose();

@@ -54,7 +54,6 @@ public class CardComparisionModel
         OnGetCards_Values?.Invoke(cards[0], cards[1]);
         OnGetCards?.Invoke();
 
-        UnityEngine.Debug.Log(cards[0].CardNominal + "//" + cards[1].CardNominal + "//" + (cards[0].CardNominal > cards[1].CardNominal));
         cards.Clear();
 
         isGetAllCards = false;

@@ -42,12 +42,12 @@ public class MainMenuEntryPoint : MonoBehaviour
         particleEffectPresenter.Initialize();
 
         cooldownDailyRewardPresenter = new CooldownPresenter
-                    (new CooldownModel(PlayerPrefsKeys.NEXT_DAILY_REWARD_TIME, TimeSpan.FromSeconds(20)),
-                    viewContainer.GetView<CooldownView>("DailyReward"));
+            (new CooldownModel(PlayerPrefsKeys.NEXT_DAILY_REWARD_TIME, TimeSpan.FromDays(1)),
+            viewContainer.GetView<CooldownView>("DailyReward"));
         cooldownDailyRewardPresenter.Initialize();
-
+         
         cooldownDailyBonusPresenter = new CooldownPresenter
-            (new CooldownModel(PlayerPrefsKeys.NEXT_DAILY_BONUS_TIME, TimeSpan.FromSeconds(25)),
+            (new CooldownModel(PlayerPrefsKeys.NEXT_DAILY_BONUS_TIME, TimeSpan.FromDays(1)),
             viewContainer.GetView<CooldownView>("DailyBonus"));
         cooldownDailyBonusPresenter.Initialize();
 
@@ -88,6 +88,7 @@ public class MainMenuEntryPoint : MonoBehaviour
     private void ActivateEvents()
     {
         dailyRewardPresenter.OnGetDailyReward += cooldownDailyRewardPresenter.ActivateCooldown;
+        dailyRewardPresenter.OnGetDailyReward += sceneRoot.OpenMainPanel;
         cooldownDailyRewardPresenter.OnClickToActivatedButton += sceneRoot.OpenDailyRewardPanel;
 
         dailyBonusPresenter.OnActivateSpin += cooldownDailyBonusPresenter.ActivateCooldown;
@@ -115,11 +116,6 @@ public class MainMenuEntryPoint : MonoBehaviour
         dailyBonusPresenter.OnGetBonus -= bankPresenter.SendMoney;
     }
 
-    private void OnDestroy()
-    {
-        Dispose();
-    }
-
     private void Dispose()
     {
         DeactivateTransitionsSceneEvents();
@@ -134,6 +130,11 @@ public class MainMenuEntryPoint : MonoBehaviour
         cooldownDailyRewardPresenter?.Dispose();
         cooldownDailyBonusPresenter?.Dispose();
         dailyBonusPresenter?.Dispose();
+    }
+
+    private void OnDestroy()
+    {
+        Dispose();
     }
 
     #region Input actions

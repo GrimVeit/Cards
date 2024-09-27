@@ -10,7 +10,7 @@ public class DailyRewardModel
     private ISoundProvider soundProvider;
     private IParticleEffectProvider particleEffectProvider;
 
-    private int reward = 1000;
+    private int reward = 10000;
 
     public DailyRewardModel(ISoundProvider soundProvider, IParticleEffectProvider particleEffectProvider)
     {

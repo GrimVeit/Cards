@@ -88,17 +88,11 @@ public class GameEntryPoint
 
     private IEnumerator LoadAndStartInitializeScene()
     {
-        rootView.SetLoadScreen(0);
-
-        yield return rootView.ShowLoadingScreen();
-
         yield return new WaitForSeconds(0.3f);
         yield return LoadScene(Scenes.INITIALIZE);
         yield return new WaitForSeconds(0.2f);
 
         coroutines.StartCoroutine(LoadAndStartMainMenu());
-
-        yield return rootView.HideLoadingScreen();
     }
 
     private IEnumerator LoadAndStartMainMenu()
@@ -135,7 +129,9 @@ public class GameEntryPoint
         var sceneEntryPoint = Object.FindObjectOfType<BigCardSceneEntryPoint>();
         sceneEntryPoint.Run(rootView);
 
-        //sceneEntryPoint.GoToMainMenu += ()=> coroutines.StartCoroutine()
+        sceneEntryPoint.GoToMainMenu += () => coroutines.StartCoroutine(LoadAndStartMainMenu());
+
+        yield return rootView.HideLoadingScreen();
     }
 
     //private IEnumerator LoadAndStartCountryChecker()

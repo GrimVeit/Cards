@@ -12,6 +12,7 @@ public class DailyBonusView : View
 
     [SerializeField] private List<Bonus> bonuses = new List<Bonus>();
 
+    [SerializeField] private Transform content;
     [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private TextMeshProUGUI textCoins; 
     [SerializeField] private Button buttonDailyBonus;
@@ -105,6 +106,9 @@ public class DailyBonusView : View
 
 
         Bonus bonus = GetClosestBonus();
+
+        yield return StartCoroutine(SmoothScrollToItem(bonus.TransformBonus));
+
         Debug.Log(bonus.Coins);
         OnGetBonus?.Invoke(bonus.Coins);
 
@@ -129,6 +133,26 @@ public class DailyBonusView : View
 
 
         return closestBonus;
+    }
+
+    private IEnumerator SmoothScrollToItem(Transform item)
+    {
+        float distance = item.position.y - centerPoint.position.y;
+        Vector3 targetPosition = content.position + new Vector3(0, -distance, 0);
+        float elapsedTime = 0f;
+        float smoothDuration = 0.3f;
+
+
+        while (elapsedTime < smoothDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            content.position = Vector3.Lerp(content.position, targetPosition, elapsedTime / smoothDuration);
+            yield return null;
+        }
+
+        yield return null;
+
+        content.position = targetPosition;
     }
 
     private void HandlerClickToSpinButton()

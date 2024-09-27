@@ -17,11 +17,17 @@ public class CardBetPresenter
     public void Initialize()
     {
         ActivateEvents();
+
+        cardWalletModel.Initialize();
+        cardWalletView.Initialize();
     }
 
     public void Dispose()
     {
         DeactivateEvents();
+
+        //cardWalletModel.Dispose();
+        //cardWalletView.Dispose()
     }
 
     private void ActivateEvents()

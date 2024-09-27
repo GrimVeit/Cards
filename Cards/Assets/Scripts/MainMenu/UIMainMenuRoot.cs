@@ -28,6 +28,8 @@ public class UIMainMenuRoot : MonoBehaviour
 
         dailyRewardPanel.OnClickBackButton += OpenMainPanel;
         dailyBonusPanel.OnClickBackButton += OpenMainPanel;
+
+        OpenMainPanel();
     }
 
     public void Deactivate()

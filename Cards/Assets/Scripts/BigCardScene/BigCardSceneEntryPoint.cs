@@ -95,6 +95,7 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardUserMovePresenter.OnStartMove += cardUserHighlightPresenter.ActivateChooseHighlight;
         cardUserMovePresenter.OnStopMove += cardUserHighlightPresenter.DeactivateChooseHighlight;
 
+        cardUserSpawnerPresenter.OnSpawnCard += cardUserMovePresenter.TeleportBack;
         cardUserSpawnerPresenter.OnSpawnCard += cardUserMovePresenter.Deactivate;
         cardUserSpawnerPresenter.OnSpawnCard += cardUserBetPresenter.Activate;
         cardUserSpawnerPresenter.OnSpawnCard += cardGamePresenter.Reset;
@@ -113,6 +114,32 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardMoveAIPresenter.OnEndMove += cardAISpawnerPresenter.SpawnCard;
 
         cardAISpawnerPresenter.OnSpawnCard += cardMoveAIPresenter.Deactivate;
+    }
+
+    private void DeactivateActions()
+    {
+        cardUserMovePresenter.OnStartMove -= cardUserHighlightPresenter.ActivateChooseHighlight;
+        cardUserMovePresenter.OnStopMove -= cardUserHighlightPresenter.DeactivateChooseHighlight;
+
+        cardUserSpawnerPresenter.OnSpawnCard -= cardUserMovePresenter.TeleportBack;
+        cardUserSpawnerPresenter.OnSpawnCard -= cardUserMovePresenter.Deactivate;
+        cardUserSpawnerPresenter.OnSpawnCard -= cardUserBetPresenter.Activate;
+        cardUserSpawnerPresenter.OnSpawnCard -= cardGamePresenter.Reset;
+
+        cardUserBetPresenter.OnSubmitBet -= cardUserBetPresenter.Deactivate;
+        cardUserBetPresenter.OnSubmitBet -= cardGamePresenter.Activate;
+        cardUserBetPresenter.OnSubmitBet_Value -= cardGameWalletPresenter.SetBet;
+
+        cardGamePresenter.OnChooseChance -= cardGamePresenter.Deactivate;
+        cardGamePresenter.OnChooseChance -= cardMoveAIPresenter.Activate;
+        cardGamePresenter.OnChooseChance_Values -= cardComparisionPresenter.UserCompare;
+
+        cardMoveAIPresenter.OnStartMove -= cardAIHighlightPresenter.ActivateChooseHighlight;
+        cardMoveAIPresenter.OnEndMove -= cardAIHighlightPresenter.DeactivateChooseHighlight;
+
+        cardMoveAIPresenter.OnEndMove -= cardAISpawnerPresenter.SpawnCard;
+
+        cardAISpawnerPresenter.OnSpawnCard -= cardMoveAIPresenter.Deactivate;
     }
 
     private void ActivateComparisedCardEvents()
@@ -135,6 +162,26 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardComparisionPresenter.OnGetCards += cardUserMovePresenter.Activate;
     }
 
+    private void DeactivateComparisedCardEvents()
+    {
+        cardUserSpawnerPresenter.OnSpawnCard_Values -= cardComparisionPresenter.OnSpawnedCard;
+        cardAISpawnerPresenter.OnSpawnCard_Values -= cardComparisionPresenter.OnSpawnedCard;
+
+        cardComparisionPresenter.OnSuccessGame -= cardGameWalletPresenter.IncreaseMoney;
+        cardComparisionPresenter.OnLoseGame -= cardGameWalletPresenter.DecreaseMoney;
+        cardComparisionPresenter.OnSuccessGame -= sceneRoot.OpenSuccessPanel;
+        cardComparisionPresenter.OnLoseGame -= sceneRoot.OpenLosePanel;
+
+        sceneRoot.OnClickToContinueGameButton_SuccessPanel -= cardComparisionPresenter.SubmitGetCards;
+        sceneRoot.OnClickToContinueGameButton_LosePanel -= cardComparisionPresenter.SubmitGetCards;
+
+        cardComparisionPresenter.OnGetCards_Values -= cardHistoryPresenter.AddCardComboHistory;
+
+        cardComparisionPresenter.OnGetCards -= cardUserSpawnerPresenter.DestroyCard;
+        cardComparisionPresenter.OnGetCards -= cardAISpawnerPresenter.DestroyCard;
+        cardComparisionPresenter.OnGetCards -= cardUserMovePresenter.Activate;
+    }
+
     private void ActivateTransferPanelsEvents()
     {
         sceneRoot.OnClickToMoveWinningsButton += sceneRoot.OpenMoveWinningsPanel;
@@ -146,11 +193,51 @@ public class BigCardSceneEntryPoint : MonoBehaviour
 
         sceneRoot.OnClickToContinueGameButton_LosePanel += sceneRoot.OpenMainPanel2;
         sceneRoot.OnClickToContinueGameButton_SuccessPanel += sceneRoot.OpenMainPanel2;
+
+        sceneRoot.OnClickToExitGameButton_LosePanel += HandleGoToMainMenu;
+        sceneRoot.OnClickToExitGameButton_SuccessPanel += HandleGoToMainMenu;
+    }
+
+    private void DeactivateTransferPanelsEvents()
+    {
+        sceneRoot.OnClickToMoveWinningsButton -= sceneRoot.OpenMoveWinningsPanel;
+        sceneRoot.OnClickToBacksButton_MoveWinningsPanel -= sceneRoot.OpenMainPanel2;
+
+        cardGameWalletPresenter.OnMoneySuccesTransitToBank -= sceneRoot.OpenMainPanel2;
+        cardGameWalletPresenter.OnMoneySuccesTransitToBank -= sceneRoot.OpenMoveMoneyPanel;
+        sceneRoot.OnClickToContinueGameButton_MoveMoneyPanel -= sceneRoot.OpenMainPanel2;
+
+        sceneRoot.OnClickToContinueGameButton_LosePanel -= sceneRoot.OpenMainPanel2;
+        sceneRoot.OnClickToContinueGameButton_SuccessPanel -= sceneRoot.OpenMainPanel2;
+
+        sceneRoot.OnClickToExitGameButton_LosePanel -= HandleGoToMainMenu;
+        sceneRoot.OnClickToExitGameButton_SuccessPanel -= HandleGoToMainMenu;
     }
 
     private void Dispose()
     {
+        DeactivateActions();
+        DeactivateComparisedCardEvents();
+        DeactivateTransferPanelsEvents();
 
+        tutorialPresenter.Dispose();
+        bankPresenter.Dispose();
+        cardUserBetPresenter.Dispose();
+        cardUserMovePresenter.Dispose();
+        cardMoveAIPresenter.Dispose();
+        cardUserSpawnerPresenter.Dispose();
+        cardAISpawnerPresenter.Dispose();
+        cardUserHighlightPresenter.Dispose();
+        cardAIHighlightPresenter.Dispose();
+        cardGamePresenter.Dispose();
+        cardComparisionPresenter.Dispose();
+        cardGameWalletPresenter.Dispose();
+        cardHistoryPresenter.Dispose();
+    }
+
+    private void OnDestroy()
+    {
+        Dispose();
     }
 
     #region Input Actions

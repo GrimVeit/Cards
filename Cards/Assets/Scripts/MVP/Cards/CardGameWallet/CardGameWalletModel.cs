@@ -38,14 +38,13 @@ public class CardGameWalletModel
     {
         if(Money == 0)
         {
-            multiply = bet;
-            Money = multiply;
-            OnAddMoney?.Invoke(multiply);
+            Money = bet;
+            OnAddMoney?.Invoke(Money);
             OnChangeMoney?.Invoke(Money);
             return;
         }
 
-        multiply *= multiply;
+        multiply = Money * bet;
         OnAddMoney?.Invoke(multiply);
 
         Money += multiply;
@@ -56,16 +55,15 @@ public class CardGameWalletModel
     {
         OnRemoveMoney?.Invoke(Money);
 
-        multiply = 0;
-        Money = multiply;
+        Money = 0;
         OnChangeMoney?.Invoke(Money);
     }
 
     public void TransitMoneyToBank()
     {
         moneyProvider.SendMoney(Money);
-        multiply = 0;
-        Money = multiply;
+
+        Money = 0;
         OnChangeMoney?.Invoke(Money);
 
         OnMoneySuccesTransitToBank?.Invoke();

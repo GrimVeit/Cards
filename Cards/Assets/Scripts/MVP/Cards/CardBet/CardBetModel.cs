@@ -14,6 +14,8 @@ public class CardBetModel
     private int bet;
     private int currentBetIndex = 0;
 
+    private bool isSubmitedBet = false;
+
     private ITutorialProvider tutorialProvider;
 
     public CardBetModel(BetAmounts betAmounts, ITutorialProvider tutorialProvider)
@@ -24,9 +26,8 @@ public class CardBetModel
 
     public void Initialize()
     {
-        currentBetIndex = 0;
+        currentBetIndex = 0; 
         bet = betAmounts.betValues[currentBetIndex];
-        OnChangedBet?.Invoke(bet);
     }
 
     public void Dispose()
@@ -38,7 +39,8 @@ public class CardBetModel
     {
         OnActivate?.Invoke();
 
-        SubmitBet();
+        if (IsBetActivated())
+            SubmitBet();
 
         if (tutorialProvider.IsActiveTutorial())
             tutorialProvider.ActivateTutorial("ChooseMoneyBet");
@@ -76,6 +78,8 @@ public class CardBetModel
 
     public void SubmitBet()
     {
+        isSubmitedBet = true;
+
         if (IsBetActivated())
         {
             OnSubmitBet_Value?.Invoke(bet);
@@ -85,6 +89,6 @@ public class CardBetModel
 
     public bool IsBetActivated()
     {
-        return bet != 0;
+        return (bet != 0) && isSubmitedBet; 
     }
 }

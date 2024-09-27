@@ -30,10 +30,8 @@ public class CardMoveAI : MonoBehaviour
 
     public void StartMove(Vector3 vector, float speed)
     {
-        Debug.Log("рлод");
         moveTween = rectTransform.DOMove(vector, speed).OnComplete(() =>
         {
-            Debug.Log("Приехали");
             OnEndMove?.Invoke();
         });
     }

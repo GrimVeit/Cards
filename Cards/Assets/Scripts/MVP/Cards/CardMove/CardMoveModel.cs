@@ -42,12 +42,19 @@ public class CardMoveModel
         {
             if(pointerEventData.pointerEnter.TryGetComponent(out CardDropZone cardDropZone))
             {
-                cardDropZone.SpawnCard();
-                OnTeleporting?.Invoke();
+                if(cardDropZone.Owner == Owner.User)
+                {
+                    cardDropZone.SpawnCard();
+                }
             }
         }
 
         OnEndMove?.Invoke();
+    }
+
+    public void Teleport()
+    {
+        OnTeleporting?.Invoke();
     }
 
     public void Activate()

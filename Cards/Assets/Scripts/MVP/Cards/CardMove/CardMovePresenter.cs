@@ -65,6 +65,11 @@ public class CardMovePresenter
         remove { cardDraggingModel.OnEndMove -= value; }
     }
 
+    public void TeleportBack()
+    {
+        cardDraggingModel.Teleport();
+    }
+
     public void Activate()
     {
         cardDraggingModel.Activate();

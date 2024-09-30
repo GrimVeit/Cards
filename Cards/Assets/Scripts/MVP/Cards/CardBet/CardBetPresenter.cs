@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class CardBetPresenter
 {
@@ -39,6 +36,8 @@ public class CardBetPresenter
         cardWalletModel.OnChangedBet += cardWalletView.DisplayBet;
         cardWalletModel.OnActivate += cardWalletView.Activate;
         cardWalletModel.OnDeactivate += cardWalletView.Deactivate;
+        cardWalletModel.OnDownNormalBet += cardWalletView.DownNormalBet;
+        cardWalletModel.OnUpNormalBet += cardWalletView.UpNormalBet;
     }
 
     private void DeactivateEvents()
@@ -50,6 +49,8 @@ public class CardBetPresenter
         cardWalletModel.OnChangedBet -= cardWalletView.DisplayBet;
         cardWalletModel.OnActivate -= cardWalletView.Activate;
         cardWalletModel.OnDeactivate -= cardWalletView.Deactivate;
+        cardWalletModel.OnDownNormalBet -= cardWalletView.DownNormalBet;
+        cardWalletModel.OnUpNormalBet -= cardWalletView.UpNormalBet;
     }
 
     #region Input

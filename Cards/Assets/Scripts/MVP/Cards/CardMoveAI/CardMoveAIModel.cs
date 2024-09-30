@@ -9,13 +9,22 @@ public class CardMoveAIModel
     public event Action OnEndMove;
     public event Action OnTeleporting;
 
+    private ISoundProvider soundProvider;
+
+    public CardMoveAIModel(ISoundProvider soundProvider)
+    {
+        this.soundProvider = soundProvider;
+    }
+
     public void EndMove()
     {
+        soundProvider.PlayOneShot("CardDrop");
         OnEndMove?.Invoke();
     }
 
     public void Activate()
     {
+        soundProvider.PlayOneShot("CardGrab");
         OnStartMove?.Invoke();
     }
 

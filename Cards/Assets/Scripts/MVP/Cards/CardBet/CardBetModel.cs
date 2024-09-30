@@ -2,6 +2,9 @@ using System;
 
 public class CardBetModel
 {
+    public event Action OnUpNormalBet;
+    public event Action OnDownNormalBet;
+
     public event Action OnSubmitBet;
     public event Action<int> OnSubmitBet_Value;
     public event Action OnActivate;
@@ -17,17 +20,21 @@ public class CardBetModel
     private bool isSubmitedBet = false;
 
     private ITutorialProvider tutorialProvider;
+    private ISoundProvider soundProvider;
 
-    public CardBetModel(BetAmounts betAmounts, ITutorialProvider tutorialProvider)
+    public CardBetModel(BetAmounts betAmounts, ITutorialProvider tutorialProvider, ISoundProvider soundProvider)
     {
         this.betAmounts = betAmounts;
         this.tutorialProvider = tutorialProvider;
+        this.soundProvider = soundProvider;
     }
 
     public void Initialize()
     {
         currentBetIndex = 0; 
         bet = betAmounts.betValues[currentBetIndex];
+
+        DecreaseBet();
     }
 
     public void Dispose()
@@ -61,8 +68,19 @@ public class CardBetModel
             currentBetIndex += 1;
 
             bet = betAmounts.betValues[currentBetIndex];
+
+            soundProvider.PlayOneShot("IncreaseBet");
+
             OnChangedBet?.Invoke(bet);
+
+            if (currentBetIndex == betAmounts.betValues.Count - 1)
+                OnUpNormalBet?.Invoke();
+
+
+            return;
         }
+
+        OnUpNormalBet?.Invoke();
     }
 
     public void DecreaseBet()
@@ -72,8 +90,18 @@ public class CardBetModel
             currentBetIndex -= 1;
 
             bet = betAmounts.betValues[currentBetIndex];
+
+            soundProvider.PlayOneShot("DecreaseBet");
+
             OnChangedBet?.Invoke(bet);
+
+            if(currentBetIndex == 0)
+                OnDownNormalBet?.Invoke();
+
+            return;
         }
+
+        OnDownNormalBet?.Invoke();
     }
 
     public void SubmitBet()

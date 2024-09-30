@@ -48,9 +48,22 @@ public class CardBetView : View
         continueButton.gameObject.SetActive(false);
     }
 
+    public void DownNormalBet()
+    {
+        decreaseBetButton.gameObject.SetActive(false);
+    }
+
+    public void UpNormalBet()
+    {
+        increaseBetButton.gameObject.SetActive(false);
+    }
+
     public void DisplayBet(int bet)
     {
         textBet.text = bet.ToString();
+
+        increaseBetButton.gameObject.SetActive(true);
+        decreaseBetButton.gameObject.SetActive(true);
     }
 
     #region Input

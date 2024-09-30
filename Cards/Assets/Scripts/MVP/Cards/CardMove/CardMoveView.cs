@@ -7,7 +7,6 @@ public class CardMoveView : View
     [SerializeField] private CardDrag cardDrag;
     private Canvas canvas;
 
-
     public void Initialize()
     {
         canvas = GetComponentInParent<Canvas>();
@@ -59,6 +58,12 @@ public class CardMoveView : View
     {
         add { cardDrag.OnEndMove += value; }
         remove { cardDrag.OnEndMove -= value; }
+    }
+
+    public event Action OnStartGrab
+    {
+        add { cardDrag.OnStartGrab += value; }
+        remove { cardDrag.OnStartGrab -= value; }
     }
 
     #endregion

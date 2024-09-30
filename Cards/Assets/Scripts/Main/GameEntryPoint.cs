@@ -101,12 +101,12 @@ public class GameEntryPoint
 
         yield return rootView.ShowLoadingScreen();
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.4f);
 
         yield return LoadScene(Scenes.BOOT);
         yield return LoadScene(Scenes.MAIN_MENU);
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
 
         var sceneEntryPoint = Object.FindObjectOfType<MainMenuEntryPoint>();
         sceneEntryPoint.Run(rootView);
@@ -121,10 +121,10 @@ public class GameEntryPoint
         rootView.SetLoadScreen(0);
         yield return rootView.ShowLoadingScreen();
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.4f);
         yield return LoadScene(Scenes.BOOT);
         yield return LoadScene(Scenes.BIG_CARD_SCENE);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
 
         var sceneEntryPoint = Object.FindObjectOfType<BigCardSceneEntryPoint>();
         sceneEntryPoint.Run(rootView);

@@ -30,6 +30,7 @@ public class CardMovePresenter
         cardDraggingView.OnStartMove_Action += cardDraggingModel.StartMove;
         cardDraggingView.OnEndMove_Action += cardDraggingModel.EndMove;
         cardDraggingView.OnMove_Action += cardDraggingModel.Move;
+        cardDraggingView.OnStartGrab += cardDraggingModel.StartGrab;
 
         cardDraggingModel.OnMove += cardDraggingView.Move;
         cardDraggingModel.OnStartMove += cardDraggingView.StartMove;
@@ -43,6 +44,7 @@ public class CardMovePresenter
         cardDraggingView.OnStartMove_Action -= cardDraggingModel.StartMove;
         cardDraggingView.OnEndMove_Action -= cardDraggingModel.EndMove;
         cardDraggingView.OnMove_Action -= cardDraggingModel.Move;
+        cardDraggingView.OnStartGrab -= cardDraggingModel.StartGrab;
 
         cardDraggingModel.OnMove -= cardDraggingView.Move;
         cardDraggingModel.OnStartMove -= cardDraggingView.StartMove;

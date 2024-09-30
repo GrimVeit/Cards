@@ -26,7 +26,7 @@ public class CardGameWalletView : View
     {
         for (int i = 0; i < displayesAllMoney.Count; i++)
         {
-            displayesAllMoney[i].Initialize();
+            displayesAllMoney[i].Dispose();
         }
 
         buttonTransferMoneyToBank.onClick.RemoveListener(HandlerClickToTransferMoneyToBank);

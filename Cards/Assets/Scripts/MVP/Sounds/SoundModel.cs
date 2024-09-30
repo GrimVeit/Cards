@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +19,6 @@ public class SoundModel
         for (int i = 0; i < sounds.Count; i++)
         {
             this.sounds[sounds[i].ID] = sounds[i];
-            this.sounds[sounds[i].ID].Initialize();
         }
     }
 
@@ -29,16 +27,25 @@ public class SoundModel
         isMute = PlayerPrefs.GetInt(KEY, 1) == 0;
 
         CheckMuteUnmute();
+
+        foreach (var sound in sounds.Values) 
+        {
+            sound.Initialize();
+        } 
     }
 
     public void Dispose()
     {
         int value;
-
         if (isMute) value = 0;
         else value = 1;
 
         PlayerPrefs.SetInt(KEY, value);
+
+        foreach (var sound in sounds.Values)
+        {
+            sound.Dispose();
+        }
     }
 
     public void MuteUnmute()

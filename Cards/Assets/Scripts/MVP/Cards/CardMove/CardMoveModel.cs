@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,10 +11,19 @@ public class CardMoveModel
 
     private bool isActive = true;
     private ITutorialProvider tutorialProvider;
+    private ISoundProvider soundProvider;
 
-    public CardMoveModel(ITutorialProvider tutorialProvider)
+    public CardMoveModel(ITutorialProvider tutorialProvider, ISoundProvider soundProvider)
     {
         this.tutorialProvider = tutorialProvider;
+        this.soundProvider = soundProvider;
+    }
+
+    public void StartGrab()
+    {
+        if (!isActive) return;
+
+        soundProvider.PlayOneShot("CardGrab");
     }
 
 
@@ -44,10 +51,15 @@ public class CardMoveModel
             {
                 if(cardDropZone.Owner == Owner.User)
                 {
+                    soundProvider.PlayOneShot("CardDrop");
                     cardDropZone.SpawnCard();
+                    OnEndMove?.Invoke();
+                    return;
                 }
             }
         }
+
+        soundProvider.PlayOneShot("Whoosh");
 
         OnEndMove?.Invoke();
     }

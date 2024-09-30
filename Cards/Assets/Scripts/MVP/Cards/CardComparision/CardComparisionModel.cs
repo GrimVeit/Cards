@@ -17,10 +17,12 @@ public class CardComparisionModel
     private bool isGetAllCards;
 
     private ITutorialProvider tutorialProvider;
+    private ISoundProvider soundProvider;
 
-    public CardComparisionModel(ITutorialProvider tutorialProvider)
+    public CardComparisionModel(ITutorialProvider tutorialProvider, ISoundProvider soundProvider)
     {
         this.tutorialProvider = tutorialProvider;
+        this.soundProvider = soundProvider;
     }
 
     public void OnCardSpawned(CardValue cardValue)
@@ -38,10 +40,12 @@ public class CardComparisionModel
 
             if(resultGame == userCompareResult)
             {
+                soundProvider.PlayOneShot("Success");
                 OnSuccessGame?.Invoke();
             }
             else
             {
+                soundProvider.PlayOneShot("Lose");
                 OnLoseGame?.Invoke();
             }
         }

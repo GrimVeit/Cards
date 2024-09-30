@@ -18,10 +18,12 @@ public class CardGameModel
 
     private bool chanceIncrease;
     private ITutorialProvider tutorialProvider;
+    private ISoundProvider soundProvider;
 
-    public CardGameModel(ITutorialProvider tutorialProvider)
+    public CardGameModel(ITutorialProvider tutorialProvider, ISoundProvider soundProvider)
     {
         this.tutorialProvider = tutorialProvider;
+        this.soundProvider = soundProvider;
     }
 
     public void Initialize()
@@ -53,12 +55,14 @@ public class CardGameModel
     public void Increase()
     {
         chanceIncrease = true;
+        soundProvider.PlayOneShot("ChanceIncrease");
         OnChooseIncrease?.Invoke();
     }
 
     public void Decrease()
     {
         chanceIncrease = false;
+        soundProvider.PlayOneShot("ChanceDecrease");
         OnChooseDecrease?.Invoke();
     }
 

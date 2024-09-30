@@ -11,6 +11,9 @@ public class BigCardSceneEntryPoint : MonoBehaviour
     private UIBigCardSceneRoot sceneRoot;
     private ViewContainer viewContainer;
 
+    private SoundPresenter soundPresenter;
+    private ParticleEffectPresenter particleEffectPresenter;
+
     private TutorialPresenter tutorialPresenter;
     private BankPresenter bankPresenter;
 
@@ -42,13 +45,16 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         viewContainer = sceneRoot.GetComponent<ViewContainer>();
         viewContainer.Initialize();
 
+        soundPresenter = new SoundPresenter(new SoundModel(sounds.sounds, PlayerPrefsKeys.IS_MUTE_SOUNDS), viewContainer.GetView<SoundView>());
+        soundPresenter.Initialize();
+
         bankPresenter = new BankPresenter(new BankModel(), viewContainer.GetView<BankView>());
         bankPresenter.Initialize();
 
         tutorialPresenter = new TutorialPresenter(new TutorialModel(), viewContainer.GetView<TutorialView>());
         tutorialPresenter.Initialize();
 
-        cardUserMovePresenter = new CardMovePresenter(new CardMoveModel(tutorialPresenter), viewContainer.GetView<CardMoveView>());
+        cardUserMovePresenter = new CardMovePresenter(new CardMoveModel(tutorialPresenter, soundPresenter), viewContainer.GetView<CardMoveView>());
         cardUserMovePresenter.Initialize();
 
         cardUserSpawnerPresenter = new CardSpawnerPresenter(new CardSpawnerModel(cardValues), viewContainer.GetView<CardSpawnerView>("User"));
@@ -57,10 +63,10 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardAISpawnerPresenter = new CardSpawnerPresenter(new CardSpawnerModel(cardValues), viewContainer.GetView<CardSpawnerView>("AI"));
         cardAISpawnerPresenter.Initialize();
 
-        cardUserBetPresenter = new CardBetPresenter(new CardBetModel(amounts, tutorialPresenter), viewContainer.GetView<CardBetView>());
+        cardUserBetPresenter = new CardBetPresenter(new CardBetModel(amounts, tutorialPresenter, soundPresenter), viewContainer.GetView<CardBetView>());
         cardUserBetPresenter.Initialize();
 
-        cardMoveAIPresenter = new CardMoveAIPresenter(new CardMoveAIModel(), viewContainer.GetView<CardMoveAIView>());
+        cardMoveAIPresenter = new CardMoveAIPresenter(new CardMoveAIModel(soundPresenter), viewContainer.GetView<CardMoveAIView>());
         cardMoveAIPresenter.Initialize();
 
         cardUserHighlightPresenter = new CardHighlightPresenter(new CardHighlightModel(), viewContainer.GetView<CardHighlightView>("User"));
@@ -69,16 +75,16 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardAIHighlightPresenter = new CardHighlightPresenter(new CardHighlightModel(), viewContainer.GetView<CardHighlightView>("AI"));
         cardAIHighlightPresenter.Initilize();
 
-        cardGamePresenter = new CardGamePresenter(new CardGameModel(tutorialPresenter), viewContainer.GetView<CardGameView>());
+        cardGamePresenter = new CardGamePresenter(new CardGameModel(tutorialPresenter, soundPresenter), viewContainer.GetView<CardGameView>());
         cardGamePresenter.Initialize();
 
-        cardComparisionPresenter = new CardComparisionPresenter(new CardComparisionModel(tutorialPresenter));
+        cardComparisionPresenter = new CardComparisionPresenter(new CardComparisionModel(tutorialPresenter, soundPresenter));
         cardComparisionPresenter.Initialize();
 
         cardGameWalletPresenter = new CardGameWalletPresenter(new CardGameWalletModel(bankPresenter), viewContainer.GetView<CardGameWalletView>());
         cardGameWalletPresenter.Initialize();
 
-        cardHistoryPresenter = new CardHistoryPresenter(new CardHistoryModel(), viewContainer.GetView<CardHistoryView>());
+        cardHistoryPresenter = new CardHistoryPresenter(new CardHistoryModel(soundPresenter), viewContainer.GetView<CardHistoryView>());
         cardHistoryPresenter.Initialize();
 
         cardUserMovePresenter.Activate();
@@ -219,6 +225,8 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         DeactivateActions();
         DeactivateComparisedCardEvents();
         DeactivateTransferPanelsEvents();
+
+        soundPresenter.Dispose();
 
         tutorialPresenter.Dispose();
         bankPresenter.Dispose();

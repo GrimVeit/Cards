@@ -6,8 +6,9 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(RectTransform))]
 [RequireComponent(typeof(CanvasGroup))]
 
-public class CardDrag : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class CardDrag : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerDownHandler
 {
+    public event Action OnStartGrab;
     public event Action OnStartMove;
     public event Action<PointerEventData> OnEndMove;
     public event Action<Vector2> OnMove;
@@ -68,5 +69,10 @@ public class CardDrag : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDrag
     public void OnEndDrag(PointerEventData eventData)
     {
         OnEndMove?.Invoke(eventData);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        OnStartGrab?.Invoke();
     }
 }

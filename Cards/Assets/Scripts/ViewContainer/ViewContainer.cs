@@ -29,7 +29,7 @@ public class ViewContainer : MonoBehaviour
             }
             else
             {
-                Debug.Log("View c типом " + type + " и идентификатором " + key + " уже был зарегистрирован");
+                Debug.LogError("View c типом " + type + " и идентификатором " + key + " уже был зарегистрирован");
             }
         }
         else
@@ -40,7 +40,7 @@ public class ViewContainer : MonoBehaviour
             }
             else
             {
-                Debug.Log("View c типом " + type + " и идентификатором " + type + " уже был зарегистрирован");
+                Debug.LogError("View c типом " + type + " и идентификатором " + type + " уже был зарегистрирован");
             }
         }
 

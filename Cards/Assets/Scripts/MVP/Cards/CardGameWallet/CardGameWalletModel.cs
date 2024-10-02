@@ -9,13 +9,15 @@ public class CardGameWalletModel
     public event Action<int> OnRemoveMoney;
 
     private IMoneyProvider moneyProvider;
+    private ISoundProvider soundProvider;
 
     private int bet;
     private int multiply;
 
-    public CardGameWalletModel(IMoneyProvider moneyProvider)
+    public CardGameWalletModel(IMoneyProvider moneyProvider, ISoundProvider soundProvider)
     {
         this.moneyProvider = moneyProvider;
+        this.soundProvider = soundProvider;
     }
 
     public void Initialize()
@@ -61,6 +63,8 @@ public class CardGameWalletModel
 
     public void TransitMoneyToBank()
     {
+        soundProvider.PlayOneShot("Success");
+
         moneyProvider.SendMoney(Money);
 
         Money = 0;

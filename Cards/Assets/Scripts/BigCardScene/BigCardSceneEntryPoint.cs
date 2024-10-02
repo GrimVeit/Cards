@@ -39,7 +39,6 @@ public class BigCardSceneEntryPoint : MonoBehaviour
     public void Run(UIRootView uIRootView)
     {
         sceneRoot = Instantiate(sceneRootPrefab);
-        sceneRoot.Initialize();
         uIRootView.AttachSceneUI(sceneRoot.gameObject, Camera.main);
 
         viewContainer = sceneRoot.GetComponent<ViewContainer>();
@@ -81,7 +80,7 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         cardComparisionPresenter = new CardComparisionPresenter(new CardComparisionModel(tutorialPresenter, soundPresenter));
         cardComparisionPresenter.Initialize();
 
-        cardGameWalletPresenter = new CardGameWalletPresenter(new CardGameWalletModel(bankPresenter), viewContainer.GetView<CardGameWalletView>());
+        cardGameWalletPresenter = new CardGameWalletPresenter(new CardGameWalletModel(bankPresenter, soundPresenter), viewContainer.GetView<CardGameWalletView>());
         cardGameWalletPresenter.Initialize();
 
         cardHistoryPresenter = new CardHistoryPresenter(new CardHistoryModel(soundPresenter), viewContainer.GetView<CardHistoryView>());
@@ -93,6 +92,8 @@ public class BigCardSceneEntryPoint : MonoBehaviour
         ActivateTransferPanelsEvents();
         ActivateActions();
 
+        sceneRoot.SetSoundProvider(soundPresenter);
+        sceneRoot.Initialize();
         sceneRoot.Activate();
     }
 
@@ -202,6 +203,7 @@ public class BigCardSceneEntryPoint : MonoBehaviour
 
         sceneRoot.OnClickToExitGameButton_LosePanel += HandleGoToMainMenu;
         sceneRoot.OnClickToExitGameButton_SuccessPanel += HandleGoToMainMenu;
+        sceneRoot.OnClickToExitGameButton_MoveMoneyPanel += HandleGoToMainMenu;
     }
 
     private void DeactivateTransferPanelsEvents()
@@ -218,6 +220,7 @@ public class BigCardSceneEntryPoint : MonoBehaviour
 
         sceneRoot.OnClickToExitGameButton_LosePanel -= HandleGoToMainMenu;
         sceneRoot.OnClickToExitGameButton_SuccessPanel -= HandleGoToMainMenu;
+        sceneRoot.OnClickToExitGameButton_MoveMoneyPanel -= HandleGoToMainMenu;
     }
 
     private void Dispose()

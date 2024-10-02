@@ -13,6 +13,13 @@ public class MainPanel_MainMenuScene : MovePanel
 
     public event Action GoToMiniGame_Action;
 
+    private ISoundProvider soundProvider;
+
+    public void SetSoundProvider(ISoundProvider soundProvider)
+    {
+        this.soundProvider = soundProvider;
+    }
+
     public override void ActivatePanel()
     {
         OnOpenPanel?.Invoke();
@@ -33,6 +40,7 @@ public class MainPanel_MainMenuScene : MovePanel
 
     private void HandleGoToMiniGame_ButtonClick()
     {
+        soundProvider.PlayOneShot("ClickOpen");
         GoToMiniGame_Action?.Invoke();
     }
 }

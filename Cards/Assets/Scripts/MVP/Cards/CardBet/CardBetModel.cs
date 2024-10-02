@@ -18,6 +18,7 @@ public class CardBetModel
     private int currentBetIndex = 0;
 
     private bool isSubmitedBet = false;
+    private bool isFirst = true;
 
     private ITutorialProvider tutorialProvider;
     private ISoundProvider soundProvider;
@@ -110,6 +111,11 @@ public class CardBetModel
 
         if (IsBetActivated())
         {
+            if (isFirst)
+            {
+                soundProvider.PlayOneShot("ClickOpen");
+                isFirst = false;
+            }
             OnSubmitBet_Value?.Invoke(bet);
             OnSubmitBet?.Invoke();
         }

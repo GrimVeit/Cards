@@ -19,9 +19,6 @@ public class MainMenuEntryPoint : MonoBehaviour
     private CooldownPresenter cooldownDailyRewardPresenter;
     private CooldownPresenter cooldownDailyBonusPresenter;
 
-
-    private ISoundProvider soundProvider;
-
     public void Run(UIRootView uIRootView)
     {
         sceneRoot = Instantiate(menuRootPrefab);
@@ -42,12 +39,12 @@ public class MainMenuEntryPoint : MonoBehaviour
         particleEffectPresenter.Initialize();
 
         cooldownDailyRewardPresenter = new CooldownPresenter
-            (new CooldownModel(PlayerPrefsKeys.NEXT_DAILY_REWARD_TIME, TimeSpan.FromDays(1)),
+            (new CooldownModel(PlayerPrefsKeys.NEXT_DAILY_REWARD_TIME, TimeSpan.FromDays(1), soundPresenter),
             viewContainer.GetView<CooldownView>("DailyReward"));
         cooldownDailyRewardPresenter.Initialize();
          
         cooldownDailyBonusPresenter = new CooldownPresenter
-            (new CooldownModel(PlayerPrefsKeys.NEXT_DAILY_BONUS_TIME, TimeSpan.FromDays(1)),
+            (new CooldownModel(PlayerPrefsKeys.NEXT_DAILY_BONUS_TIME, TimeSpan.FromDays(1), soundPresenter),
             viewContainer.GetView<CooldownView>("DailyBonus"));
         cooldownDailyBonusPresenter.Initialize();
 
@@ -59,7 +56,7 @@ public class MainMenuEntryPoint : MonoBehaviour
             viewContainer.GetView<DailyRewardView>());
         dailyRewardPresenter.Initialize();
 
-        dailyBonusPresenter = new DailyBonusPresenter(new DailyBonusModel(), viewContainer.GetView<DailyBonusView>());
+        dailyBonusPresenter = new DailyBonusPresenter(new DailyBonusModel(soundPresenter, particleEffectPresenter), viewContainer.GetView<DailyBonusView>());
         dailyBonusPresenter.Initialize();
 
         sceneRoot.SetSoundProvider(soundPresenter);

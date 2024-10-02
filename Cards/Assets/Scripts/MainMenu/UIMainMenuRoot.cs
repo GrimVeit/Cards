@@ -10,13 +10,17 @@ public class UIMainMenuRoot : MonoBehaviour
     private bool isCooldownDailyRewardPanelActivated;
     private bool isCooldownDailyBonusPanelActivated;
 
-    //private ISoundProvider soundProvider;
+    private ISoundProvider soundProvider;
     //private IParticleEffectProvider particleEffectProvider;
 
     private Panel currentPanel;
 
     public void Initialize()
     {
+        mainPanel.SetSoundProvider(soundProvider);
+        dailyBonusPanel.SetSoundProvider(soundProvider);
+        dailyRewardPanel.SetSoundProvider(soundProvider);
+
         mainPanel.Initialize();
         dailyBonusPanel.Initialize();
         dailyRewardPanel.Initialize();
@@ -42,7 +46,7 @@ public class UIMainMenuRoot : MonoBehaviour
 
     public void SetSoundProvider(ISoundProvider soundProvider)
     {
-        //this.soundProvider = soundProvider;
+        this.soundProvider = soundProvider;
     }
 
     public void SetParticleEffectProvider(IParticleEffectProvider particleEffectProvider)

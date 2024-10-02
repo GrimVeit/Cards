@@ -29,14 +29,24 @@ public class CardHistoryPresenter
 
     private void ActivateEvents()
     {
+        cardHistoryView.OnClickToLeftScroll += cardHistoryModel.LeftScroll;
+        cardHistoryView.OnClickToRightScroll += cardHistoryModel.RightScroll;
+
         cardHistoryModel.OnAddCardCombo += cardHistoryView.AddCardCombo;
         cardHistoryModel.OnClearHistory += cardHistoryView.Clear;
+        cardHistoryModel.OnLeftScroll += cardHistoryView.ScrollLeft;
+        cardHistoryModel.OnRightScroll += cardHistoryView.SctrollRight;
     }
 
     private void DeactivateEvents()
     {
+        cardHistoryView.OnClickToLeftScroll -= cardHistoryModel.LeftScroll;
+        cardHistoryView.OnClickToRightScroll -= cardHistoryModel.RightScroll;
+
         cardHistoryModel.OnAddCardCombo -= cardHistoryView.AddCardCombo;
         cardHistoryModel.OnClearHistory -= cardHistoryView.Clear;
+        cardHistoryModel.OnLeftScroll -= cardHistoryView.ScrollLeft;
+        cardHistoryModel.OnRightScroll -= cardHistoryView.SctrollRight;
     }
 
     #region Input

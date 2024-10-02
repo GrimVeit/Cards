@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ public class DailyBonusView : View
 {
     public event Action OnClickSpinButton;
     public event Action<int> OnGetBonus;
+    public event Action<float> OnSpin;
 
     [SerializeField] private List<Bonus> bonuses = new List<Bonus>();
 
@@ -22,10 +24,15 @@ public class DailyBonusView : View
     [SerializeField] private float minDuration;
     [SerializeField] private float maxDuration;
 
+    private Vector3 normalScaleBonusButton;
+    private Tween scaleTween;
+
     private IEnumerator spin_Coroutine;
 
     public void Initialize()
     {
+        normalScaleBonusButton = buttonDailyBonus.transform.localScale;
+
         buttonDailyBonus.onClick.AddListener(HandlerClickToSpinButton);
     }
 
@@ -37,11 +44,19 @@ public class DailyBonusView : View
     public void DeactivateSpinButton() 
     {
         buttonDailyBonus.gameObject.SetActive(false);
+
+        if (scaleTween != null)
+            scaleTween.Kill();
+        buttonDailyBonus.transform.localScale = normalScaleBonusButton;
     }
 
     public void ActivateSpinButton()
     {
         buttonDailyBonus.gameObject.SetActive(true);
+
+        scaleTween = buttonDailyBonus.transform.DOScale(new Vector3(1.1f, 1.1f, 1.1f), 0.6f)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.Linear);
     }
 
     public void DisplayCoins(int coins)
@@ -95,7 +110,7 @@ public class DailyBonusView : View
             elapsedTime += Time.deltaTime;
             float currentSpeed = Mathf.Lerp(startSpeed, endSpeed, elapsedTime / duration);
 
-            //OnWheelSpeed?.Invoke(_idSlotMach, currentSpeed);
+            OnSpin?.Invoke(currentSpeed);
 
             scrollRect.verticalNormalizedPosition += currentSpeed * Time.deltaTime;
             scrollRect.verticalNormalizedPosition = scrollRect.verticalNormalizedPosition % 1; // Зацикливание

@@ -1,12 +1,17 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MoveWinningsPanel_BigCardScene : MovePanel
 {
     [SerializeField] private Button buttonBack;
+
+    private ISoundProvider soundProvider;
+
+    public void SetSoundProvider(ISoundProvider soundProvider)
+    {
+        this.soundProvider = soundProvider;
+    }
 
     public override void ActivatePanel()
     {
@@ -26,6 +31,7 @@ public class MoveWinningsPanel_BigCardScene : MovePanel
 
     private void HandlerClickToBackButton()
     {
+        soundProvider.PlayOneShot("ClickClose");
         OnClickToBackButton?.Invoke();
     }
 }

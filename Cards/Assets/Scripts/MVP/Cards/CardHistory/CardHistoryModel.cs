@@ -5,6 +5,9 @@ public class CardHistoryModel
     public event Action<CardValue, CardValue> OnAddCardCombo;
     public event Action OnClearHistory;
 
+    public event Action OnLeftScroll;
+    public event Action OnRightScroll;
+
     private ISoundProvider soundProvider;
 
     public CardHistoryModel(ISoundProvider soundProvider)
@@ -21,5 +24,15 @@ public class CardHistoryModel
     public void Clear()
     {
         OnClearHistory?.Invoke();
+    }
+
+    public void LeftScroll()
+    {
+        OnLeftScroll?.Invoke();
+    }
+
+    public void RightScroll()
+    {
+        OnRightScroll?.Invoke();
     }
 }

@@ -16,10 +16,12 @@ public class CardHistoryView : View
     [SerializeField] private Transform transformEndSpawn;
 
     [SerializeField] private CardComboView cardComboViewPrefab;
+    [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private Transform canvas;
     [SerializeField] private Transform content;
 
     private Tween moveTween;
+    private IEnumerator scrollIEnumerator;
 
     public void Initialize()
     {
@@ -35,6 +37,8 @@ public class CardHistoryView : View
 
     public void AddCardCombo(CardValue leftCardValue, CardValue rightCardValue)
     {
+        ScrollLeft();
+
         CardComboView cardComboView = Instantiate(cardComboViewPrefab, canvas);
         cardComboView.SetData(leftCardValue, rightCardValue);
         cardComboView.transform.SetPositionAndRotation(transformStartSpawn.position, cardComboViewPrefab.transform.rotation);
@@ -56,6 +60,39 @@ public class CardHistoryView : View
         {
             Destroy(content.GetChild(i).gameObject);
         }
+    }
+
+    private IEnumerator SmoothScrollRect(float targetPosition, float duration)
+    {
+        float startPosition = scrollRect.horizontalNormalizedPosition;
+        float elapsedTime = 0f;
+
+        while(elapsedTime < duration)
+        {
+            scrollRect.horizontalNormalizedPosition = Mathf.Lerp(startPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        scrollRect.horizontalNormalizedPosition = targetPosition;
+    }
+
+    public void ScrollLeft()
+    {
+        if (scrollIEnumerator != null)
+            Coroutines.Stop(scrollIEnumerator);
+
+        scrollIEnumerator = SmoothScrollRect(0, 0.3f);
+        Coroutines.Start(scrollIEnumerator);
+    }
+
+    public void SctrollRight()
+    {
+        if (scrollIEnumerator != null)
+            Coroutines.Stop(scrollIEnumerator);
+
+        scrollIEnumerator = SmoothScrollRect(1, 0.3f);
+        Coroutines.Start(scrollIEnumerator);
     }
 
     #region Input

@@ -12,6 +12,13 @@ public class SuccessPanel_BigCardScene : MovePanel
     [SerializeField] private Button continueButton;
     [SerializeField] private Button exitButton;
 
+    private ISoundProvider soundProvider;
+
+    public void SetSoundProvider(ISoundProvider soundProvider)
+    {
+        this.soundProvider = soundProvider;
+    }
+
     public override void ActivatePanel()
     {
         base.ActivatePanel();
@@ -30,11 +37,13 @@ public class SuccessPanel_BigCardScene : MovePanel
 
     private void HandlerClickToExitButton()
     {
+        soundProvider.PlayOneShot("ClickClose");
         OnClickToExitButton?.Invoke();
     }
 
     private void HandlerClickToContinueButton()
     {
+        soundProvider.PlayOneShot("ClickClose");
         OnClickToContinueButton?.Invoke();
     }
 }

@@ -68,6 +68,7 @@ public class CardGameModel
 
     public void SubmitChance()
     {
+        soundProvider.PlayOneShot("ClickOpen");
         OnChooseChance?.Invoke();
         OnChooseChance_Values?.Invoke(chanceIncrease);
     }

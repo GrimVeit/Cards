@@ -10,16 +10,29 @@ public class UIBigCardSceneRoot : MonoBehaviour
     [SerializeField] private SuccessPanel_BigCardScene successPanel;
     [SerializeField] private LosePanel_BigCardScene losePanel;
 
+    private ISoundProvider soundProvider;
+
     private Panel currentPanel;
 
     public void Initialize()
     {
+        mainPanel.SetSoundProvider(soundProvider);
+        moveWinningsPanel.SetSoundProvider(soundProvider);
+        moveMoneyPanel.SetSoundProvider(soundProvider);
+        successPanel.SetSoundProvider(soundProvider);
+        losePanel.SetSoundProvider(soundProvider);
+
         mainPanel.Initialize();
         mainPanel2.Initialize();
         moveWinningsPanel.Initialize();
         moveMoneyPanel.Initialize();
         successPanel.Initialize();
         losePanel.Initialize();
+    }
+
+    public void SetSoundProvider(ISoundProvider soundProvider)
+    {
+        this.soundProvider = soundProvider;
     }
 
     public void Dispose()
@@ -139,6 +152,12 @@ public class UIBigCardSceneRoot : MonoBehaviour
     {
         add { losePanel.OnClickToExitButton += value; }
         remove { losePanel.OnClickToExitButton -= value; }
+    }
+
+    public event Action OnClickToExitGameButton_MoveMoneyPanel
+    {
+        add { moveMoneyPanel.OnClickToExitButton += value; }
+        remove { moveMoneyPanel.OnClickToExitButton -= value; }
     }
 
     #endregion

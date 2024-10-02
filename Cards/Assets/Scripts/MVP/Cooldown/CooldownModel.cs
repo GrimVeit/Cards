@@ -18,17 +18,17 @@ public class CooldownModel
     private DateTime nextRewardTime;
     private bool isRewardAvailable => DateTime.Now >= nextRewardTime;
 
-    //private ISoundProvider soundProvider;
+    private ISoundProvider soundProvider;
     //private IParticleEffectProvider particleEffectProvider;
     //private IParticleEffect effectReload;
 
     private IEnumerator countdownButton_coroutine;
 
-    public CooldownModel(string key, TimeSpan timeToReload)
+    public CooldownModel(string key, TimeSpan timeToReload, ISoundProvider soundProvider)
     {
         KEY = key;
         this.timeToReload = timeToReload;
-        //this.soundProvider = soundProvider;
+        this.soundProvider = soundProvider;
         //this.particleEffectProvider = particleEffectProvider;
     }
 
@@ -65,11 +65,12 @@ public class CooldownModel
         if (isRewardAvailable)
         {
             OnClickToActivatedButton?.Invoke();
+            soundProvider.PlayOneShot("ClickOpen");
             return;
         }
 
         OnClickToDeactivatedButton?.Invoke();
-        //soundProvider.PlayOneShot("Error");
+        soundProvider.PlayOneShot("Locked");
     }
 
     public void ActivateCooldown()

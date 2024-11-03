@@ -83,16 +83,7 @@ public class GameEntryPoint
 
 #endif
 
-        coroutines.StartCoroutine(LoadAndStartMainMenu());
-    }
-
-    private IEnumerator LoadAndStartInitializeScene()
-    {
-        yield return new WaitForSeconds(0.1f);
-        yield return LoadScene(Scenes.INITIALIZE);
-        yield return new WaitForSeconds(0.1f);
-
-        coroutines.StartCoroutine(LoadAndStartMainMenu());
+        coroutines.StartCoroutine(LoadAndStartCountryChecker());
     }
 
     private IEnumerator LoadAndStartMainMenu()
@@ -134,124 +125,46 @@ public class GameEntryPoint
         yield return rootView.HideLoadingScreen();
     }
 
-    //private IEnumerator LoadAndStartCountryChecker()
-    //{
-    //    rootView.SetLoadScreen(0);
+    private IEnumerator LoadAndStartCountryChecker()
+    {
+        rootView.SetLoadScreen(2);
 
-    //    yield return rootView.ShowLoadingScreen();
+        yield return rootView.ShowLoadingScreen();
 
-    //    yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.3f);
 
-    //    yield return LoadScene(Scenes.SLOT_1);
+        yield return LoadScene(Scenes.COUNTRY_CHECKER);
 
-    //    yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.2f);
 
-    //    var sceneEntryPoint = Object.FindObjectOfType<CountryCheckerSceneEntryPoint>();
-    //    sceneEntryPoint.Run(rootView);
+        var sceneEntryPoint = Object.FindObjectOfType<CountryCheckerSceneEntryPoint>();
+        sceneEntryPoint.Run(rootView);
 
-    //    sceneEntryPoint.GoToMainMenu += () => coroutines.StartCoroutine(LoadAndStartMainMenu());
-    //    sceneEntryPoint.GoToOther += () => coroutines.StartCoroutine(LoadAndStartOther());
+        sceneEntryPoint.GoToMainMenu += () => coroutines.StartCoroutine(LoadAndStartMainMenu());
+        sceneEntryPoint.GoToOther += () => coroutines.StartCoroutine(LoadAndStartOther());
 
-    //    yield return rootView.HideLoadingScreen();
-    //}
+        yield return rootView.HideLoadingScreen();
+    }
 
-    //private IEnumerator LoadAndStartOther()
-    //{
-    //    rootView.SetLoadScreen(0);
+    private IEnumerator LoadAndStartOther()
+    {
+        rootView.SetLoadScreen(2);
 
-    //    yield return rootView.ShowLoadingScreen();
+        yield return rootView.ShowLoadingScreen();
 
-    //    yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.3f);
 
-    //    yield return LoadScene(Scenes.SLOT_1);
+        yield return LoadScene(Scenes.OTHER);
 
-    //    yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.2f);
 
-    //    var sceneEntryPoint = Object.FindObjectOfType<OtherSceneEntryPoint>();
-    //    sceneEntryPoint.Run(rootView);
+        var sceneEntryPoint = Object.FindObjectOfType<OtherSceneEntryPoint>();
+        sceneEntryPoint.Run(rootView);
 
-    //    sceneEntryPoint.GoToMainMenu += () => coroutines.StartCoroutine(LoadAndStartMainMenu());
+        sceneEntryPoint.GoToMainMenu += () => coroutines.StartCoroutine(LoadAndStartMainMenu());
 
-    //    yield return rootView.HideLoadingScreen();
-    //}
-
-    //private IEnumerator LoadAndStartSceneSlots1()
-    //{
-    //    rootView.SetLoadScreen(1);
-
-    //    yield return rootView.ShowLoadingScreen();
-
-    //    yield return new WaitForSeconds(0.3f);
-
-    //    yield return LoadScene(Scenes.BOOT);
-    //    yield return LoadScene(Scenes.SLOT_1);
-
-    //    yield return new WaitForSeconds(0.2f);
-
-    //    var sceneEntryPoint = Object.FindObjectOfType<Slots1SceneEntryPoint>();
-    //    sceneEntryPoint.Run(rootView);
-
-    //    sceneEntryPoint.GoToMainMenu += () => coroutines.StartCoroutine(LoadAndStartMainMenu());
-
-    //    yield return rootView.HideLoadingScreen();
-    //}
-
-    //private IEnumerator LoadAndStartSceneSlots2()
-    //{
-    //    rootView.SetLoadScreen(2);
-
-    //    yield return rootView.ShowLoadingScreen();
-
-    //    yield return LoadScene(Scenes.BOOT);
-    //    yield return LoadScene(Scenes.SLOT_2);
-
-    //    yield return new WaitForSeconds(0.5f);
-
-    //    var sceneEntryPoint = Object.FindObjectOfType<Slots2SceneEntryPoint>();
-    //    sceneEntryPoint.Run(rootView);
-
-    //    sceneEntryPoint.GoToMainMenu += () => coroutines.StartCoroutine(LoadAndStartMainMenu());
-
-    //    yield return rootView.HideLoadingScreen();
-    //}
-
-    //private IEnumerator LoadAndStartSceneSlots3()
-    //{
-    //    rootView.SetLoadScreen(3);
-
-    //    yield return rootView.ShowLoadingScreen();
-
-    //    yield return LoadScene(Scenes.BOOT);
-    //    yield return LoadScene(Scenes.SLOT_3);
-
-    //    yield return new WaitForSeconds(0.5f);
-
-    //    var sceneEntryPoint = Object.FindObjectOfType<Slots3SceneEntryPoint>();
-    //    sceneEntryPoint.Run(rootView);
-
-    //    sceneEntryPoint.GoToMainMenu += () => coroutines.StartCoroutine(LoadAndStartMainMenu());
-
-    //    yield return rootView.HideLoadingScreen();
-    //}
-
-    //private IEnumerator LoadAndStartSceneMiniGame()
-    //{
-    //    rootView.SetLoadScreen(4);
-
-    //    yield return rootView.ShowLoadingScreen();
-
-    //    yield return LoadScene(Scenes.BOOT);
-    //    yield return LoadScene(Scenes.MINI_GAME);
-
-    //    yield return new WaitForSeconds(0.5f);
-
-    //    var sceneEntryPoint = Object.FindObjectOfType<MiniGameSceneEntryPoint>();
-    //    sceneEntryPoint.Run(rootView);
-
-    //    sceneEntryPoint.GoToMainMenu += () => coroutines.StartCoroutine(LoadAndStartMainMenu());
-
-    //    yield return rootView.HideLoadingScreen();
-    //}
+        yield return rootView.HideLoadingScreen();
+    }
 
     private IEnumerator LoadScene(string scene)
     {

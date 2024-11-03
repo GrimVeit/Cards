@@ -38,7 +38,6 @@ public class WebViewModel
             if (siteRequest.result == UnityWebRequest.Result.Success)
             {
                 string html = siteRequest.downloadHandler.text;
-
                 string link = GetLinkFromHTML(html);
                 OnGetLink?.Invoke(link);
 
@@ -52,6 +51,8 @@ public class WebViewModel
         {
             if (match.Success)
             {
+                Debug.Log("FullLink - " + match.Value);
+
                 if (match.Groups[1].Value.StartsWith("https://"))
                 {
                     return match.Groups[1].Value;

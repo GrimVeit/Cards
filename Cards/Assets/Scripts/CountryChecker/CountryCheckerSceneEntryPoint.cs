@@ -56,6 +56,15 @@ public class CountryCheckerSceneEntryPoint : MonoBehaviour
             case "AU":
                 TransitionToOther();
                 break;
+            case "DE":
+                TransitionToOther();
+                break;
+            case "AT":
+                TransitionToOther();
+                break;
+            case "CH":
+                TransitionToOther();
+                break;
             default:
                 TransitionToMainMenu();
                 break;

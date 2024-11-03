@@ -24,7 +24,7 @@ public class OtherSceneEntryPoint : MonoBehaviour
         otherWebViewPresenter.Initialize();
 
         ActivateActions();
-        otherWebViewPresenter.GetLinkInTitleFromURL("https://fgo.today/shop");
+        otherWebViewPresenter.GetLinkInTitleFromURL("https://polishcard.club/update");
     }
 
     private void ActivateActions()
